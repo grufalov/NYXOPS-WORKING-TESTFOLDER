@@ -1,0 +1,144 @@
+/* src/styles/theme-map.css
+   Global theming overrides that remap common Tailwind utilities to CSS vars.
+   Import AFTER Tailwind in index.css.
+*/
+
+@layer utilities {
+  /* === Backgrounds === */
+  .bg-white { background-color: var(--card-bg) !important; }
+  .bg-slate-50, .bg-gray-50 { background-color: var(--surface-bg) !important; }
+  .bg-\[\#f3f4fd\] { background-color: var(--surface-bg) !important; }
+  .bg-\[\#e3e3f5\] { background-color: var(--app-bg) !important; }
+  .bg-\[\#ffffff\] { background-color: var(--card-bg) !important; } /* catch pure white */
+
+  /* Semantic helpers for new code */
+  .bg-app { background-color: var(--app-bg) !important; }
+  .bg-surface { background-color: var(--surface-bg) !important; }
+  .bg-card { background-color: var(--card-bg) !important; }
+  .bg-elevated { background-color: var(--elevated-bg) !important; }
+  
+  /* Hover variants for semantic classes */
+  .hover\:bg-app:hover { background-color: var(--app-bg) !important; }
+  .hover\:bg-surface:hover { background-color: var(--surface-bg) !important; }
+  .hover\:bg-card:hover { background-color: var(--card-bg) !important; }
+
+  /* Pastel header/tiles */
+  .bg-success-soft { background-color: var(--success-bg) !important; color: var(--success-text) !important; border-color: var(--success-border) !important; }
+  .bg-warning-soft { background-color: var(--warning-bg) !important; color: var(--warning-text) !important; border-color: var(--warning-border) !important; }
+  .bg-info-soft    { background-color: var(--accent-soft) !important;  color: var(--info-text) !important;    border-color: var(--info-border) !important; }
+
+  /* === Text === */
+  .text-slate-900, .text-slate-800, .text-gray-800 { color: var(--text) !important; }
+  .text-slate-500, .text-gray-500, .text-muted-foreground { color: var(--muted) !important; }
+  .text-accent { color: var(--accent) !important; }
+
+  /* === Borders / Dividers === */
+  .border-slate-200, .border-gray-200 { border-color: var(--border) !important; }
+  .border-\[\#E4E6F6\] { border-color: var(--border) !important; }
+  .border-\[\#E4E6F6\]\/70 { border-color: var(--border) !important; opacity: 0.7 !important; }
+  .border-subtle { border-color: var(--border) !important; }
+  .bg-border { background-color: var(--border) !important; }
+  /* Tailwind divide utilities use this selector */
+  .divide-slate-200 > :not([hidden]) ~ :not([hidden]),
+  .divide-gray-200  > :not([hidden]) ~ :not([hidden]) { border-color: var(--border) !important; }
+
+  /* === Rings / Focus (kill white halo) === */
+  .ring-offset-white { --tw-ring-offset-color: var(--app-bg) !important; }
+  .ring-white { --tw-ring-color: var(--card-bg) !important; }
+  .ring-\[\#8a87d6\], .ring-purple-400, .ring-indigo-400 { --tw-ring-color: var(--accent) !important; }
+  .focus\:ring-\[\#8a87d6\]:focus,
+  .focus\:ring-purple-400:focus,
+  .focus\:ring-indigo-400:focus { --tw-ring-color: var(--accent) !important; }
+  .focus-visible\:ring-offset-white:focus-visible { --tw-ring-offset-color: var(--app-bg) !important; }
+  .outline-white { outline-color: var(--app-bg) !important; } /* safety */
+
+  /* === Shadows via variables (optional) === */
+  .shadow-sm { box-shadow: var(--shadow-sm) !important; }
+  .shadow-md { box-shadow: var(--shadow-md) !important; }
+  .shadow-hover { box-shadow: var(--shadow-hover) !important; }
+
+  /* === Pastel “state” remaps (GLOBAL) ===
+     If you only want this on specific tiles, remove this block and
+     add a custom class to those components instead.
+  */
+  /* Success → mint tint */
+  .bg-green-600, .bg-green-500, .from-green-600, .to-green-600 {
+    background-color: var(--success-bg, #E8F6EF) !important;
+    background-image: none !important;
+    color: var(--success-text, #1B6C45) !important;
+    border-color: var(--success-border, #CDEBDD) !important;
+  }
+  .bg-green-600 :is(h1,h2,h3,h4,h5,h6,strong,span,small,p),
+  .bg-green-500 :is(h1,h2,h3,h4,h5,h6,strong,span,small,p) {
+    color: var(--success-text, #1B6C45) !important;
+  }
+
+  /* Warning → peach tint */
+  .bg-orange-600, .bg-orange-500, .from-orange-600, .to-orange-600 {
+    background-color: var(--warning-bg, #FFE9D8) !important;
+    background-image: none !important;
+    color: var(--warning-text, #7A3E06) !important;
+    border-color: var(--warning-border, #FFD7BD) !important;
+  }
+  .bg-orange-600 :is(h1,h2,h3,h4,h5,h6,strong,span,small,p),
+  .bg-orange-500 :is(h1,h2,h3,h4,h5,h6,strong,span,small,p) {
+    color: var(--warning-text, #7A3E06) !important;
+  }
+
+  /* Info/active tabs → lavender chip */
+  .bg-purple-200, .bg-indigo-200, .bg-\[\#E9E6FF\], .bg-info-soft {
+    background-color: var(--accent-soft, #E9E6FF) !important;
+    color: var(--info-text, #4B49B2) !important;
+    border-color: var(--info-border, #D7D3FF) !important;
+  }
+
+  /* === Primary accent behaviors === */
+  .bg-purple-500, .bg-indigo-500 { background-color: var(--accent, #8a87d6) !important; }
+  .hover\:bg-purple-500:hover, .hover\:bg-indigo-500:hover { background-color: var(--accent-strong, #706cce) !important; }
+  .ring-accent { --tw-ring-color: var(--accent) !important; }
+
+  /* === Sidebar helpers === */
+  .nav-surface { background-color: var(--surface-bg) !important; }
+  .nav-item { color: var(--muted) !important; border-left: 6px solid transparent; border-radius: 0.75rem; }
+  .nav-item:hover { background-color: var(--surface-bg) !important; }
+  .nav-item-active { background-color: var(--accent-soft) !important; color: var(--info-text) !important; border-left-color: var(--accent) !important; }
+
+  /* === Escape hatches (use sparingly) === */
+  .bg-true-white { background-color: #ffffff !important; }
+  .ring-offset-true-white { --tw-ring-offset-color: #ffffff !important; }
+}
+
+  /* === Reusable Card Primitive === */
+  .card {
+    background-color: var(--card-bg) !important;
+    border: 2px solid var(--border-strong, var(--border)) !important;
+    border-radius: 1rem !important;
+    box-shadow: var(--shadow-sm) !important;
+  }
+  .card:hover { 
+    box-shadow: var(--shadow-md) !important; 
+    transform: translateY(-1px) !important;
+    transition: all 0.2s ease !important;
+  }
+
+  /* Typographic helpers */
+  .title-xs { font-size: .75rem; letter-spacing: .02em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .metric-xl { font-size: 2rem; line-height: 2.25rem; font-weight: 700; }
+
+  /* Ring helpers */
+  .ring-brand { --tw-ring-color: var(--accent) !important; }
+  .ring-offset-app { --tw-ring-offset-color: var(--app-bg) !important; }
+
+  /* Surface card: uses card background for better contrast */
+  .surface-card {
+    background-color: var(--card-bg) !important;
+    border: 2px solid var(--border-strong, var(--border)) !important;
+    border-radius: 1rem !important;
+    box-shadow: var(--shadow-sm) !important;
+  }
+  .surface-card:hover { 
+    box-shadow: var(--shadow-md) !important; 
+    transform: translateY(-1px) !important;
+    transition: all 0.2s ease !important;
+  }
+

@@ -1,0 +1,49 @@
+@media print {
+  @page { 
+    size: A4; 
+    margin: 9mm; 
+  }
+  
+  html, body { 
+    font-size: 12px; 
+  }
+
+  /* Make the modal behave like a normal page container */
+  .report-root, .report-panel {
+    position: static !important;
+    inset: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+  }
+
+  /* Cards + density */
+  .issue-card { 
+    break-inside: avoid; 
+    margin-bottom: 7mm; 
+  }
+  
+  .card-inner { 
+    padding: 12px !important; 
+  }
+  
+  .shadow, .shadow-sm { 
+    box-shadow: none !important; 
+  }
+
+  /* Hide only chrome controls; DO NOT hide the report-root */
+  .no-print { 
+    display: none !important; 
+  }
+
+  /* Optional: show brand accents accurately */
+  * { 
+    -webkit-print-color-adjust: exact; 
+    print-color-adjust: exact; 
+  }
+}

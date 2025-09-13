@@ -1,0 +1,69 @@
+@layer base {
+  :root {
+    /* LIGHT THEME - Your Design System */
+    --app-bg: #e3e3f5;      /* full page bg */
+    --surface-bg: #f3f4fd;  /* sections/strips (same as cards in your system) */
+    --card-bg: #f3f4fd;     /* cards, inputs, tables - your specified color */
+    --elevated-bg: #fafbfe; /* elevated surfaces like sidebar - subtle lilac wash */
+    --card-hover-bg: #ffffff;  /* hover/expanded layer - your specified color */
+    --text: #1f2937;        /* slate-800-ish */
+    --muted: #64748b;       /* slate-500-ish */
+    --border: rgba(22,22,45,0.12);
+    --border-strong: #c5cae9;      /* stronger borders for better visibility */
+    --accent: #8a87d6;      /* focus/hover/active */
+    --accent-warm: #C2410C; /* orange rail if used */
+
+    --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px 0 rgb(0 0 0 / 0.06);
+    --shadow-md: 0 10px 25px rgb(17 24 39 / 0.1), 0 4px 6px rgb(17 24 39 / 0.05);
+    --shadow-hover: 0 20px 30px rgb(17 24 39 / 0.15), 0 8px 10px rgb(17 24 39 / 0.08);
+
+    /* Soft state palettes (light) */
+    --success-bg: #E8F6EF;
+    --success-text: #1B6C45;
+    --success-border: #CDEBDD;
+
+    --warning-bg: #FFE9D8;
+    --warning-text: #7A3E06;
+    --warning-border: #FFD7BD;
+
+    --accent-soft: #E9E6FF;
+    --info-text: #4B49B2;
+    --info-border: #D7D3FF;
+  }
+
+  .dark {
+    /* DARK THEME */
+    --app-bg: #30313E;
+    --surface-bg: #424250;
+    --card-bg: #4a4b5c;     /* Slightly lighter than surface for better contrast */
+    --elevated-bg: #4a4b5c; /* elevated surfaces like sidebar */
+    --text: #F8FAFC;
+    --muted: #CBD5E1;
+    --border: rgba(255,255,255,0.08); /* Reduced opacity for dark mode as requested */
+    --border-strong: #6a6b7c;  /* Stronger border for dark mode */
+    --accent: #8a87d6;
+    --accent-warm: #C2410C;
+
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.35);
+    --shadow-md: 0 6px 14px rgb(0 0 0 / 0.4);
+
+    /* Soft state palettes (dark tuned) */
+    --success-bg: #1f3b31;
+    --success-text: #8ee0b0;
+    --success-border: #2a5446;
+
+    --warning-bg: #3a271b;
+    --warning-text: #ffcf9f;
+    --warning-border: #563a28;
+
+    --accent-soft: #3c3a67;
+    --info-text: #d5d3ff;
+    --info-border: #5855a3;
+  }
+
+  /* Global base (helps even if pages render outside React root) */
+  html, body, #root {
+    background: var(--app-bg);
+    color: var(--text);
+  }
+}

@@ -1,0 +1,512 @@
+import React, { useState } from 'react';
+import { Plus, Search, Filter, ArrowUpCircle, CheckCircle, Edit, Trash2, X, Calendar, Clock, AlertTriangle } from 'lucide-react';
+import BackgroundDoodles from '../components/decors/BackgroundDoodles.jsx';
+
+// Helper Components
+const RiskBadge = ({ level, isDarkTheme }) => {
+  const colors = {
+    Low: isDarkTheme ? 'bg-[#f3f4fd] text-[#e69a96]' : 'bg-[#f3f4fd] text-[#e69a96]',
+    Medium: isDarkTheme ? 'bg-yellow-900 text-yellow-300' : 'bg-yellow-100 text-yellow-800',
+    High: isDarkTheme ? 'bg-[#8a87d6] text-[#8a87d6]' : 'bg-[#8a87d6] text-[#8a87d6]',
+    Critical: isDarkTheme ? 'bg-[#e69a96] text-[#e69a96]' : 'bg-[#e69a96] text-[#e69a96]'
+  };
+
+  return (
+    <span className={`px-2 py-1 rounded-full text-xs font-medium ${colors[level] || colors.Medium}`}>
+      {level}
+    </span>
+  );
+};
+
+const StatusBadge = ({ status, isDarkTheme }) => {
+  const colors = {
+    Active: isDarkTheme ? 'bg-[#8a87d6] text-[#8a87d6]' : 'bg-[#8a87d6] text-[#8a87d6]',
+    'On Hold': isDarkTheme ? 'bg-yellow-900 text-yellow-300' : 'bg-yellow-100 text-yellow-800',
+    Closed: isDarkTheme ? 'bg-[#424250] text-gray-300' : 'bg-[#f3f4fd] text-gray-800',
+    Cancelled: isDarkTheme ? 'bg-[#e69a96] text-[#e69a96]' : 'bg-[#e69a96] text-[#e69a96]'
+  };
+
+  return (
+    <span className={`px-2 py-1 rounded-full text-xs font-medium ${colors[status] || colors.Active}`}>
+      {status}
+    </span>
+  );
+};
+
+const DaysOpenIndicator = ({ daysOpen, isDarkTheme }) => {
+  const getColorClass = () => {
+    if (daysOpen <= 30) return isDarkTheme ? 'text-[#e69a96]' : 'text-[#e69a96]';
+    if (daysOpen <= 60) return isDarkTheme ? 'text-yellow-400' : 'text-yellow-600';
+    if (daysOpen <= 90) return isDarkTheme ? 'text-[#8a87d6]' : 'text-[#8a87d6]';
+    return isDarkTheme ? 'text-[#e69a96]' : 'text-[#e69a96]';
+  };
+
+  return (
+    <span className={`font-medium ${getColorClass()}`}>
+      {daysOpen} days
+    </span>
+  );
+};
+
+// Role Card Component with Inline Editing
+const RoleInlineDetails = ({ 
+  role, 
+  isExpanded, 
+  onToggle, 
+  onEdit, 
+  onDelete, 
+  onPromote, 
+  onAddMyInput, 
+  onAddTLUpdate, 
+  onShowNotes, 
+  isDarkTheme 
+}) => {
+  const [editingMyInput, setEditingMyInput] = useState(false);
+  const [myInputValue, setMyInputValue] = useState(role.my_input || '');
+  const [showTLUpdateForm, setShowTLUpdateForm] = useState(false);
+  const [tlUpdateContent, setTLUpdateContent] = useState('');
+
+  const handleSaveMyInput = async () => {
+    try {
+      await onAddMyInput(role.id, myInputValue);
+      setEditingMyInput(false);
+    } catch (error) {
+      console.error('Error saving my input:', error);
+    }
+  };
+
+  const handleAddTLUpdate = async () => {
+    try {
+      await onAddTLUpdate(role.id, tlUpdateContent);
+      setTLUpdateContent('');
+      setShowTLUpdateForm(false);
+    } catch (error) {
+      console.error('Error adding TL update:', error);
+    }
+  };
+
+  const calculateDaysOpen = (openDate) => {
+    if (!openDate) return 0;
+    const today = new Date();
+    const open = new Date(openDate);
+    const diffTime = Math.abs(today - open);
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  };
+
+  const formatDate = (date) => {
+    if (!date) return 'Not specified';
+    return new Date(date).toLocaleDateString();
+  };
+
+  return (
+    <div className={`rounded-lg border ${
+      isDarkTheme ? 'bg-[#424250] border-slate-700' : 'bg-[#f3f4fd] border-gray-200'
+    } shadow-sm`}>
+      {/* Header */}
+      <div className="p-4">
+        <div className="flex items-center justify-between">
+          <div className="flex-1">
+            <div className="flex items-center gap-3">
+              <h3 className="text-lg font-semibold">{role.title}</h3>
+              <RiskBadge level={role.risk_level} isDarkTheme={isDarkTheme} />
+              <StatusBadge status={role.status} isDarkTheme={isDarkTheme} />
+            </div>
+            <div className="flex items-center gap-4 mt-2 text-sm text-gray-500 dark:text-gray-400">
+              <span>{role.practice || 'No practice'}</span>
+              <span>•</span>
+              <span>{role.hiring_manager || 'No hiring manager'}</span>
+              <span>•</span>
+              <DaysOpenIndicator daysOpen={calculateDaysOpen(role.open_date)} isDarkTheme={isDarkTheme} />
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => onPromote(role)}
+              className="flex items-center gap-2 px-3 py-2 bg-[#f3f4fd] hover:bg-[#f3f4fd] text-white rounded-lg transition-colors text-sm"
+            >
+              <ArrowUpCircle className="w-4 h-4" />
+              Promote
+            </button>
+            <button
+              onClick={onToggle}
+              className={`px-3 py-2 rounded-lg transition-colors text-sm ${
+                isExpanded 
+                  ? 'bg-[#8a87d6] text-white' 
+                  : isDarkTheme 
+                    ? 'bg-[#8a87d6] text-slate-300 hover:bg-[#8a87d6]' 
+                    : 'bg-[#ffffff] text-gray-700 hover:bg-[#f3f4fd]'
+              }`}
+            >
+              {isExpanded ? 'Collapse' : 'Expand'}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Expanded Content */}
+      {isExpanded && (
+        <div className={`border-t ${isDarkTheme ? 'border-slate-700' : 'border-gray-200'} p-4 space-y-4`}>
+          {/* Role Details */}
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className={`block text-sm font-medium mb-1 ${isDarkTheme ? 'text-gray-300' : 'text-gray-700'}`}>
+                Recruiter
+              </label>
+              <p className={isDarkTheme ? 'text-gray-200' : 'text-gray-900'}>
+                {role.recruiter || 'Not specified'}
+              </p>
+            </div>
+            <div>
+              <label className={`block text-sm font-medium mb-1 ${isDarkTheme ? 'text-gray-300' : 'text-gray-700'}`}>
+                GCM Level
+              </label>
+              <p className={isDarkTheme ? 'text-gray-200' : 'text-gray-900'}>
+                {role.gcm || 'Not specified'}
+              </p>
+            </div>
+          </div>
+
+          {/* My Input Section */}
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <h4 className={`text-lg font-medium ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>
+                My Input
+              </h4>
+              {!editingMyInput && (
+                <button
+                  onClick={() => setEditingMyInput(true)}
+                  className="flex items-center gap-2 px-3 py-1 text-sm bg-[#8a87d6] hover:bg-[#8a87d6] text-white rounded-lg transition-colors"
+                >
+                  <Edit className="w-4 h-4" />
+                  Edit
+                </button>
+              )}
+            </div>
+            
+            {editingMyInput ? (
+              <div className="space-y-3">
+                <textarea
+                  value={myInputValue}
+                  onChange={(e) => setMyInputValue(e.target.value)}
+                  rows={4}
+                  className={`w-full px-3 py-2 rounded-lg border ${
+                    isDarkTheme 
+                      ? 'bg-[#424250] border-gray-600 text-white' 
+                      : 'bg-[#f3f4fd] border-gray-300 text-gray-900'
+                  }`}
+                  placeholder="Add your input and notes..."
+                />
+                <div className="flex gap-2">
+                  <button
+                    onClick={handleSaveMyInput}
+                    className="px-4 py-2 bg-[#f3f4fd] hover:bg-[#f3f4fd] text-white rounded-lg transition-colors"
+                  >
+                    Save
+                  </button>
+                  <button
+                    onClick={() => {
+                      setMyInputValue(role.my_input || '');
+                      setEditingMyInput(false);
+                    }}
+                    className="px-4 py-2 bg-gray-600 hover:bg-[#424250] text-white rounded-lg transition-colors"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className={`p-4 rounded-lg ${
+                isDarkTheme ? 'bg-[#424250]' : 'bg-[#e3e3f5]'
+              }`}>
+                <p className={isDarkTheme ? 'text-gray-200' : 'text-gray-700'}>
+                  {role.my_input || 'No input added yet...'}
+                </p>
+              </div>
+            )}
+          </div>
+
+          {/* Actions */}
+          <div className="flex gap-3 pt-4">
+            <button
+              onClick={() => onDelete(role.id)}
+              className="flex items-center gap-2 px-4 py-2 bg-[#e69a96] hover:bg-[#e69a96] text-white rounded-lg transition-colors"
+            >
+              <Trash2 className="w-4 h-4" />
+              Delete
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Main Roles at Risk View Component
+const RolesAtRiskView = ({
+  rolesAtRisk = [],
+  addRole,
+  updateRole,
+  deleteRole,
+  addTLUpdate,
+  addMyInput,
+  user,
+  isDarkTheme = true,
+  onPromoteToCase,
+  // Modal components
+  AddRoleModal,
+  NotesModal
+}) => {
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [selectedRole, setSelectedRole] = useState(null);
+  const [showDetailsDrawer, setShowDetailsDrawer] = useState(false);
+  const [showNotesModal, setShowNotesModal] = useState(false);
+  const [notesRole, setNotesRole] = useState(null);
+  const [expandedRoleId, setExpandedRoleId] = useState(null);
+  
+  // Filters and search
+  const [searchTerm, setSearchTerm] = useState('');
+  const [practiceFilter, setPracticeFilter] = useState('');
+  const [riskLevelFilter, setRiskLevelFilter] = useState('');
+  const [statusFilter, setStatusFilter] = useState('');
+  const [recruiterFilter, setRecruiterFilter] = useState('');
+
+  // Handle case promotion
+  const handlePromoteToCase = (role) => {
+    if (onPromoteToCase) {
+      onPromoteToCase(role);
+    }
+  };
+
+  // Handle role deletion
+  const handleDeleteRole = async (roleId) => {
+    if (confirm('Are you sure you want to delete this role at risk?')) {
+      try {
+        await deleteRole(roleId);
+      } catch (error) {
+        console.error('Error deleting role:', error);
+      }
+    }
+  };
+
+  // Helper function to calculate days open
+  const calculateDaysOpen = (openDate) => {
+    if (!openDate) return 0;
+    const today = new Date();
+    const open = new Date(openDate);
+    const diffTime = Math.abs(today - open);
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  };
+
+  // Filter roles based on filters
+  const filteredRoles = rolesAtRisk.filter(role => {
+    return (
+      (searchTerm === '' || role.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+       role.hiring_manager?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+       role.recruiter?.toLowerCase().includes(searchTerm.toLowerCase())) &&
+      (practiceFilter === '' || role.practice === practiceFilter) &&
+      (riskLevelFilter === '' || role.risk_level === riskLevelFilter) &&
+      (statusFilter === '' || role.status === statusFilter) &&
+      (recruiterFilter === '' || role.recruiter === recruiterFilter)
+    );
+  });
+
+  // Get unique values for filters
+  const uniquePractices = [...new Set(rolesAtRisk.map(role => role.practice).filter(Boolean))];
+  const uniqueRecruiters = [...new Set(rolesAtRisk.map(role => role.recruiter).filter(Boolean))];
+
+  const riskLevels = ['Low', 'Medium', 'High', 'Critical'];
+  const statuses = ['Active', 'On Hold', 'Closed', 'Cancelled'];
+
+  return (
+    <div className={`min-h-screen relative ${isDarkTheme ? 'bg-[#30313e] text-white' : 'bg-[#e3e3f5] text-gray-900'}`} data-roles-view>
+      <BackgroundDoodles />
+      {/* Header */}
+      <div className={`sticky top-0 z-10 px-6 py-4 border-b ${
+        isDarkTheme ? 'bg-[#30313e] border-slate-700' : 'bg-[#f3f4fd] border-gray-200'
+      }`}>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold">Roles at Risk</h1>
+            <p className="text-sm text-gray-500 mt-1">
+              {filteredRoles.length} of {rolesAtRisk.length} roles
+            </p>
+          </div>
+          <button
+            onClick={() => setShowAddModal(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-[#8a87d6] hover:bg-[#8a87d6] text-white rounded-lg transition-colors"
+          >
+            <Plus className="w-4 h-4" />
+            Add Role at Risk
+          </button>
+        </div>
+
+        {/* Filters */}
+        <div className="mt-4 grid grid-cols-1 md:grid-cols-6 gap-4">
+          <div>
+            <input
+              type="text"
+              placeholder="Search roles..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className={`w-full px-3 py-2 rounded-lg border ${
+                isDarkTheme 
+                  ? 'bg-[#8a87d6] border-slate-600 text-white' 
+                  : 'bg-[#f3f4fd] border-gray-300 text-gray-900'
+              }`}
+            />
+          </div>
+          <div>
+            <select
+              value={practiceFilter}
+              onChange={(e) => setPracticeFilter(e.target.value)}
+              className={`w-full px-3 py-2 rounded-lg border ${
+                isDarkTheme 
+                  ? 'bg-[#8a87d6] border-slate-600 text-white' 
+                  : 'bg-[#f3f4fd] border-gray-300 text-gray-900'
+              }`}
+            >
+              <option value="">All Practices</option>
+              {uniquePractices.map(practice => (
+                <option key={practice} value={practice}>{practice}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <select
+              value={riskLevelFilter}
+              onChange={(e) => setRiskLevelFilter(e.target.value)}
+              className={`w-full px-3 py-2 rounded-lg border ${
+                isDarkTheme 
+                  ? 'bg-[#8a87d6] border-slate-600 text-white' 
+                  : 'bg-[#f3f4fd] border-gray-300 text-gray-900'
+              }`}
+            >
+              <option value="">All Risk Levels</option>
+              {riskLevels.map(level => (
+                <option key={level} value={level}>{level}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              className={`w-full px-3 py-2 rounded-lg border ${
+                isDarkTheme 
+                  ? 'bg-[#8a87d6] border-slate-600 text-white' 
+                  : 'bg-[#f3f4fd] border-gray-300 text-gray-900'
+              }`}
+            >
+              <option value="">All Statuses</option>
+              {statuses.map(status => (
+                <option key={status} value={status}>{status}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <select
+              value={recruiterFilter}
+              onChange={(e) => setRecruiterFilter(e.target.value)}
+              className={`w-full px-3 py-2 rounded-lg border ${
+                isDarkTheme 
+                  ? 'bg-[#8a87d6] border-slate-600 text-white' 
+                  : 'bg-[#f3f4fd] border-gray-300 text-gray-900'
+              }`}
+            >
+              <option value="">All Recruiters</option>
+              {uniqueRecruiters.map(recruiter => (
+                <option key={recruiter} value={recruiter}>{recruiter}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <button
+              onClick={() => {
+                setSearchTerm('');
+                setPracticeFilter('');
+                setRiskLevelFilter('');
+                setStatusFilter('');
+                setRecruiterFilter('');
+              }}
+              className={`w-full px-3 py-2 rounded-lg border ${
+                isDarkTheme 
+                  ? 'border-slate-600 text-slate-300 hover:bg-[#8a87d6]' 
+                  : 'border-gray-300 text-gray-700 hover:bg-[#ffffff]'
+              }`}
+            >
+              Clear Filters
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="p-6">
+        {filteredRoles.length === 0 ? (
+          <div className="text-center py-12">
+            <div className={`text-4xl mb-4 ${isDarkTheme ? 'text-slate-600' : 'text-gray-400'}`}>
+              📋
+            </div>
+            <h3 className={`text-lg font-medium mb-2 ${isDarkTheme ? 'text-slate-300' : 'text-gray-600'}`}>
+              No roles at risk found
+            </h3>
+            <p className={`text-sm ${isDarkTheme ? 'text-slate-400' : 'text-gray-500'}`}>
+              {rolesAtRisk.length === 0 
+                ? 'Get started by adding your first role at risk.'
+                : 'Try adjusting your search criteria.'}
+            </p>
+          </div>
+        ) : (
+          <div className="grid gap-4">
+            {filteredRoles.map((role) => {
+              const isExpanded = expandedRoleId === role.id;
+              return (
+                <RoleInlineDetails
+                  key={role.id}
+                  role={role}
+                  isExpanded={isExpanded}
+                  onToggle={() => setExpandedRoleId(isExpanded ? null : role.id)}
+                  onEdit={updateRole}
+                  onDelete={handleDeleteRole}
+                  onPromote={handlePromoteToCase}
+                  onAddMyInput={addMyInput}
+                  onAddTLUpdate={addTLUpdate}
+                  onShowNotes={(role) => {
+                    setNotesRole(role);
+                    setShowNotesModal(true);
+                  }}
+                  isDarkTheme={isDarkTheme}
+                />
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* Modals */}
+      {showAddModal && AddRoleModal && (
+        <AddRoleModal
+          isOpen={showAddModal}
+          onClose={() => setShowAddModal(false)}
+          onAdd={addRole}
+          isDarkTheme={isDarkTheme}
+        />
+      )}
+
+      {showNotesModal && NotesModal && notesRole && (
+        <NotesModal
+          isOpen={showNotesModal}
+          onClose={() => {
+            setShowNotesModal(false);
+            setNotesRole(null);
+          }}
+          role={notesRole}
+          isDarkTheme={isDarkTheme}
+        />
+      )}
+    </div>
+  );
+};
+
+export default RolesAtRiskView;
+

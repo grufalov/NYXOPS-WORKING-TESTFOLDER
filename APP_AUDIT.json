@@ -1,0 +1,131 @@
+{
+  "framework": "react",
+  "language": "js",
+  "build": { "tool": "vite", "entry": "src/main.jsx" },
+  "styles": { "tailwind": true, "tokensFile": "src/styles/tokens.css" },
+  "deps": [
+    { "name": "@supabase/supabase-js", "purpose": "Database, auth, storage client" },
+    { "name": "lucide-react", "purpose": "Icon library for UI" },
+    { "name": "jszip", "purpose": "Build ZIPs for export with attachments" },
+    { "name": "jspdf", "purpose": "PDF export (reports)" },
+    { "name": "jspdf-autotable", "purpose": "PDF table generation" },
+    { "name": "xlsx", "purpose": "Excel import/export for roles/projects" },
+    { "name": "markdown-it", "purpose": "Markdown rendering for notes/reports" },
+    { "name": "react-quill", "purpose": "Rich text editor for notes" }
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0"
+  },
+  "routes": [
+    { "path": "/", "file": "src/App.jsx", "lazy": false, "layout": null, "type": "tab:dashboard" },
+    { "path": "/cases", "file": "src/views/CasesView.jsx", "lazy": false, "layout": null, "type": "tab:cases" },
+    { "path": "/advisory", "file": "src/views/AdvisoryIssuesView.jsx", "lazy": false, "layout": null, "type": "tab:advisory" },
+    { "path": "/projects", "file": "src/views/ProjectsView.jsx", "lazy": false, "layout": null, "type": "tab:projects" },
+    { "path": "/handovers", "file": "src/views/HandoversView.jsx", "lazy": false, "layout": null, "type": "tab:handovers" },
+    { "path": "/roles-at-risk", "file": "src/views/RolesAtRiskView.jsx", "lazy": false, "layout": null, "type": "tab:roles" },
+    { "path": "/my-desk", "file": "src/views/MyDeskView.jsx", "lazy": false, "layout": null, "type": "tab:my-desk" }
+  ],
+  "pages": [
+    {
+      "name": "Dashboard",
+      "file": "src/views/Dashboard.jsx",
+      "components": ["views/dashboard/QuickNotesCardEnhanced.jsx", "views/dashboard/MorningChecklistCard.jsx", "views/dashboard/TaskListFull.jsx", "components/decors/BackgroundDoodles.jsx", "components/ErrorInline.jsx", "components/QuoteBar.jsx"],
+      "dataSources": ["supabase: cases (count)", "supabase: projects (count)", "supabase: roles_at_risk (count)", "local: errorBus"],
+      "forms": [],
+      "filters": []
+    },
+    {
+      "name": "Cases",
+      "file": "src/views/CasesView.jsx",
+      "components": ["components/CaseCard.jsx", "modals/NextStepsModal.jsx", "modals/AddCaseModal.jsx", "components/decors/BackgroundDoodles.jsx"],
+      "dataSources": ["supabase: cases", "local: state filters"],
+      "forms": ["AddCaseModal", "NextStepsModal"],
+      "filters": ["status", "practice", "search", "sort"]
+    },
+    {
+      "name": "Advisory",
+      "file": "src/views/AdvisoryIssuesView.jsx",
+      "components": ["components/SimpleNotesTimeline.jsx", "modals/AddAdvisoryIssueModal.jsx", "modals/EditAdvisoryIssueModal.jsx", "modals/PromoteModal.jsx", "components/CardPresenter.jsx"],
+      "dataSources": ["supabase: advisory_issues"],
+      "forms": ["AddAdvisoryIssueModal", "EditAdvisoryIssueModal", "PromoteModal"],
+      "filters": ["status", "search", "viewMode"]
+    },
+    {
+      "name": "Projects",
+      "file": "src/views/ProjectsView.jsx",
+      "components": ["modals/NextStepsModal.jsx", "components/decors/BackgroundDoodles.jsx"],
+      "dataSources": ["supabase: projects"],
+      "forms": ["NextStepsModal", "Project add/edit"],
+      "filters": ["status", "practice", "search", "sort"]
+    },
+    {
+      "name": "Handovers",
+      "file": "src/views/HandoversView.jsx",
+      "components": ["modals/EditTaskModal.jsx", "components/decors/BackgroundDoodles.jsx"],
+      "dataSources": ["supabase: handovers", "supabase: cases (link)", "local: ui state"],
+      "forms": ["EditTaskModal", "AddNote"],
+      "filters": ["status", "search", "priority", "assignee"]
+    },
+    {
+      "name": "Roles at Risk",
+      "file": "src/views/RolesAtRiskView.jsx",
+      "components": ["components/RolesSmartTable.jsx", "modals/RoleEditModal.jsx", "components/PasteImportModal.jsx"],
+      "dataSources": ["supabase: roles_at_risk"],
+      "forms": ["RoleEditModal"],
+      "filters": ["status", "role_type", "practice", "search"]
+    },
+    {
+      "name": "My Desk",
+      "file": "src/views/MyDeskView.jsx",
+      "components": ["views/dashboard/QuickNotesCardEnhanced.jsx", "views/dashboard/TaskListFull.jsx"],
+      "dataSources": ["supabase: notes", "supabase: todos"],
+      "forms": ["NotesModal", "TodoModal"],
+      "filters": []
+    }
+  ],
+  "state": {
+    "globalStores": [],
+    "serverState": [{ "where": "src/supabaseClient.js", "lib": "@supabase/supabase-js" }]
+  },
+  "designSystem": {
+    "tokens": "src/styles/tokens.css",
+    "themeSwitch": "src/App.jsx (toggleTheme)",
+    "modal": "src/modals/*.jsx",
+    "table": "src/components/RolesSmartTable.jsx",
+    "toast": null
+  },
+  "dataLayer": {
+    "client": "@supabase/supabase-js",
+    "env": ["VITE_SUPABASE_URL", "VITE_SUPABASE_ANON_KEY", "VITE_ADVISORY_V15"],
+    "storageBuckets": ["case-attachments"]
+  },
+  "components": [
+    { "file": "src/components/CaseCard.jsx", "purpose": "Case summary card" },
+    { "file": "src/components/AdvisoryIssueTable.jsx", "purpose": "Advisory table view" },
+    { "file": "src/components/RolesSmartTable.jsx", "purpose": "Roles data table with layout persistence" },
+    { "file": "src/components/ErrorDrawer.jsx", "purpose": "Centralized error log drawer" },
+    { "file": "src/components/MarkdownEditor.jsx", "purpose": "Rich text/markdown editor UI" }
+  ],
+  "hooks": [
+    { "file": "src/hooks/useStableQuote.js", "purpose": "Provide a stable random quote per load" }
+  ],
+  "orphans": [
+    "src/views/AdvisoryIssuesView.backup.jsx",
+    "src/views/AdvisoryIssuesViewV15.jsx",
+    "src/views/AdvisoryIssuesViewV15New.jsx",
+    "src/views/Dashboard_backup.jsx",
+    "src/views/Dashboard_merged.jsx",
+    "src/views/Dashboard_new.jsx",
+    "src/views/HandoversView_backup.jsx",
+    "src/views/HandoversView_FocusedWorkflow.jsx",
+    "src/views/HandoversView_Redesigned.jsx",
+    "src/views/ProjectsView_backup.jsx",
+    "src/views/RolesAtRiskView.jsx.backup",
+    "src/views/RolesAtRiskViewRefactored.jsx",
+    "src/views/dashboard/QuickNotesCardEnhanced.jsx.backup",
+    "src/views/dashboard/QuickNotesCard_enhanced.jsx"
+  ]
+}

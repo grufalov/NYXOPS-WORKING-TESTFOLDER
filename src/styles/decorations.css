@@ -1,0 +1,1682 @@
+/* Decoration utilities for subtle background elements */
+
+/* Base decoration class */
+.decor {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  opacity: 0.21;
+  transition: opacity 0.3s ease;
+  will-change: opacity;
+}
+
+/* Dark mode adjustments */
+.dark .decor {
+  opacity: 0.21;
+  mix-blend-mode: overlay;
+}
+
+/* Doodle decorations - Strategic grid placement with 30px minimum spacing */
+
+/* Top row - Header area with wide spacing */
+.decor--doodle-top-left {
+  top: 3%;
+  left: 8%;
+  width: clamp(70px, 9vw, 110px);
+  height: auto;
+  transform: scale(0.5) rotate(-15deg);
+  opacity: 0.21;
+}
+
+.decor--doodle-top-center {
+  top: 1%;
+  left: 50%;
+  transform: translateX(-50%) scale(0.48) rotate(25deg);
+  width: clamp(65px, 8vw, 95px);
+  height: auto;
+  opacity: 0.23;
+}
+
+.decor--doodle-top-right {
+  top: 2%;
+  right: 12%;
+  width: clamp(75px, 9vw, 105px);
+  height: auto;
+  transform: scale(0.52) rotate(35deg);
+  opacity: 0.13;
+}
+
+.decor--doodle-top-far-left {
+  top: 4%;
+  left: 1%;
+  width: clamp(60px, 7vw, 85px);
+  height: auto;
+  transform: scale(0.42) rotate(-35deg);
+  opacity: 0.12;
+}
+
+.decor--doodle-top-far-right {
+  top: 5%;
+  right: 2%;
+  width: clamp(68px, 8vw, 98px);
+  height: auto;
+  transform: scale(0.46) rotate(50deg);
+  opacity: 0.12;
+}
+
+/* Upper middle row - Positioned to avoid KPI cards */
+.decor--doodle-upper-left {
+  top: 18%;
+  left: 3%;
+  width: clamp(80px, 10vw, 115px);
+  height: auto;
+  transform: scale(0.45) rotate(-25deg);
+  opacity: 0.12;
+}
+
+.decor--doodle-upper-right {
+  top: 15%;
+  right: 5%;
+  width: clamp(85px, 11vw, 125px);
+  height: auto;
+  transform: scale(0.55) rotate(15deg);
+  opacity: 0.17;
+}
+
+.decor--doodle-upper-center {
+  top: 16%;
+  left: 50%;
+  transform: translateX(-50%) scale(0.44) rotate(-40deg);
+  width: clamp(72px, 9vw, 102px);
+  height: auto;
+  opacity: 0.21;
+}
+
+.decor--doodle-upper-far-left {
+  top: 20%;
+  left: 1%;
+  width: clamp(75px, 9vw, 108px);
+  height: auto;
+  transform: scale(0.41) rotate(30deg);
+  opacity: 0.16;
+}
+
+/* Middle row - Between main content areas */
+.decor--doodle-middle-left {
+  top: 35%;
+  left: 2%;
+  width: clamp(90px, 11vw, 130px);
+  height: auto;
+  transform: scale(0.5) rotate(10deg);
+  opacity: 0.21;
+}
+
+.decor--doodle-middle-center {
+  top: 40%;
+  left: 50%;
+  transform: translateX(-50%) scale(0.42) rotate(-30deg);
+  width: clamp(70px, 8vw, 100px);
+  height: auto;
+  opacity: 0.14;
+}
+
+.decor--doodle-middle-right {
+  top: 38%;
+  right: 8%;
+  width: clamp(78px, 10vw, 118px);
+  height: auto;
+  transform: scale(0.47) rotate(45deg);
+  opacity: 0.17;
+}
+
+.decor--doodle-middle-far-left {
+  top: 42%;
+  left: 1%;
+  width: clamp(65px, 8vw, 95px);
+  height: auto;
+  transform: scale(0.39) rotate(-55deg);
+  opacity: 0.12;
+}
+
+.decor--doodle-middle-far-right {
+  top: 36%;
+  right: 1%;
+  width: clamp(73px, 9vw, 105px);
+  height: auto;
+  transform: scale(0.43) rotate(20deg);
+  opacity: 0.23;
+}
+
+/* Lower middle row - Around task areas */
+.decor--doodle-lower-left {
+  top: 55%;
+  left: 5%;
+  width: clamp(72px, 9vw, 108px);
+  height: auto;
+  transform: scale(0.44) rotate(-40deg);
+  opacity: 0.23;
+}
+
+.decor--doodle-lower-center {
+  top: 60%;
+  left: 45%;
+  width: clamp(68px, 8vw, 98px);
+  height: auto;
+  transform: scale(0.49) rotate(20deg);
+  opacity: 0.21;
+}
+
+.decor--doodle-lower-right {
+  top: 58%;
+  right: 15%;
+  width: clamp(82px, 10vw, 122px);
+  height: auto;
+  transform: scale(0.46) rotate(-15deg);
+  opacity: 0.13;
+}
+
+.decor--doodle-lower-far-left {
+  top: 62%;
+  left: 1%;
+  width: clamp(67px, 8vw, 97px);
+  height: auto;
+  transform: scale(0.38) rotate(40deg);
+  opacity: 0.14;
+}
+
+.decor--doodle-lower-far-right {
+  top: 56%;
+  right: 2%;
+  width: clamp(76px, 9vw, 112px);
+  height: auto;
+  transform: scale(0.42) rotate(-25deg);
+  opacity: 0.13;
+}
+
+/* Bottom row - Footer area */
+.decor--doodle-bottom-left {
+  bottom: 8%;
+  left: 10%;
+  width: clamp(85px, 11vw, 125px);
+  height: auto;
+  transform: scale(0.53) rotate(30deg);
+  opacity: 0.21;
+}
+
+.decor--doodle-bottom-center {
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%) scale(0.45) rotate(-20deg);
+  width: clamp(75px, 9vw, 110px);
+  height: auto;
+  opacity: 0.12;
+}
+
+.decor--doodle-bottom-right {
+  bottom: 6%;
+  right: 8%;
+  width: clamp(88px, 11vw, 128px);
+  height: auto;
+  transform: scale(0.51) rotate(40deg);
+  opacity: 0.21;
+}
+
+.decor--doodle-bottom-far-left {
+  bottom: 10%;
+  left: 2%;
+  width: clamp(70px, 8vw, 100px);
+  height: auto;
+  transform: scale(0.4) rotate(-45deg);
+  opacity: 0.21;
+}
+
+.decor--doodle-bottom-far-right {
+  bottom: 7%;
+  right: 1%;
+  width: clamp(79px, 10vw, 116px);
+  height: auto;
+  transform: scale(0.48) rotate(55deg);
+  opacity: 0.29;
+}
+
+/* Accent positions - Strategic highlights */
+.decor--doodle-accent-1 {
+  top: 25%;
+  right: 30%;
+  width: clamp(65px, 8vw, 95px);
+  height: auto;
+  transform: scale(0.4) rotate(60deg);
+  opacity: 0.12;
+}
+
+.decor--doodle-accent-2 {
+  top: 75%;
+  left: 35%;
+  width: clamp(78px, 10vw, 115px);
+  height: auto;
+  transform: scale(0.48) rotate(-35deg);
+  opacity: 0.21;
+}
+
+.decor--doodle-accent-3 {
+  bottom: 25%;
+  right: 25%;
+  width: clamp(73px, 9vw, 105px);
+  height: auto;
+  transform: scale(0.43) rotate(25deg);
+  opacity: 0.12;
+}
+
+.decor--doodle-accent-4 {
+  bottom: 45%;
+  left: 25%;
+  width: clamp(80px, 10vw, 120px);
+  height: auto;
+  transform: scale(0.46) rotate(-50deg);
+  opacity: 0.16;
+}
+
+.decor--doodle-accent-5 {
+  top: 8%;
+  left: 35%;
+  width: clamp(62px, 7vw, 88px);
+  height: auto;
+  transform: scale(0.37) rotate(35deg);
+  opacity: 0.17;
+}
+
+.decor--doodle-accent-6 {
+  top: 48%;
+  left: 70%;
+  width: clamp(69px, 8vw, 99px);
+  height: auto;
+  transform: scale(0.41) rotate(-20deg);
+  opacity: 0.13;
+}
+
+.decor--doodle-accent-7 {
+  bottom: 35%;
+  left: 55%;
+  width: clamp(71px, 9vw, 103px);
+  height: auto;
+  transform: scale(0.44) rotate(45deg);
+  opacity: 0.17;
+}
+
+.decor--doodle-accent-8 {
+  top: 82%;
+  right: 45%;
+  width: clamp(66px, 8vw, 96px);
+  height: auto;
+  transform: scale(0.39) rotate(-15deg);
+  opacity: 0.13;
+}
+
+/* Extended scroll doodles - base positioning for all views */
+.decor--doodle-scroll-1 {
+  top: 85%;
+  left: 15%;
+  width: clamp(60px, 7vw, 90px);
+  height: auto;
+  transform: scale(0.35) rotate(-20deg);
+  opacity: 0.12;
+}
+
+.decor--doodle-scroll-2 {
+  bottom: 5%;
+  right: 20%;
+  width: clamp(65px, 8vw, 95px);
+  height: auto;
+  transform: scale(0.38) rotate(15deg);
+  opacity: 0.11;
+}
+
+.decor--doodle-scroll-3 {
+  bottom: 15%;
+  left: 8%;
+  width: clamp(70px, 9vw, 100px);
+  height: auto;
+  transform: scale(0.36) rotate(-10deg);
+  opacity: 0.13;
+}
+
+.decor--doodle-scroll-4 {
+  bottom: 25%;
+  right: 10%;
+  width: clamp(55px, 6vw, 85px);
+  height: auto;
+  transform: scale(0.32) rotate(25deg);
+  opacity: 0.12;
+}
+
+.decor--doodle-scroll-5 {
+  top: 90%;
+  left: 25%;
+  width: clamp(75px, 9vw, 105px);
+  height: auto;
+  transform: scale(0.42) rotate(-30deg);
+  opacity: 0.14;
+}
+
+.decor--doodle-scroll-6 {
+  bottom: 8%;
+  right: 15%;
+  width: clamp(60px, 7vw, 90px);
+  height: auto;
+  transform: scale(0.35) rotate(18deg);
+  opacity: 0.10;
+}
+
+.decor--doodle-scroll-7 {
+  bottom: 12%;
+  left: 12%;
+  width: clamp(65px, 8vw, 95px);
+  height: auto;
+  transform: scale(0.37) rotate(-25deg);
+  opacity: 0.12;
+}
+
+.decor--doodle-scroll-8 {
+  top: 88%;
+  right: 25%;
+  width: clamp(70px, 9vw, 100px);
+  height: auto;
+  transform: scale(0.36) rotate(20deg);
+  opacity: 0.11;
+}
+
+.decor--doodle-scroll-9 {
+  bottom: 20%;
+  left: 18%;
+  width: clamp(58px, 6vw, 88px);
+  height: auto;
+  transform: scale(0.33) rotate(-15deg);
+  opacity: 0.12;
+}
+
+.decor--doodle-scroll-10 {
+  top: 85%;
+  right: 18%;
+  width: clamp(72px, 9vw, 102px);
+  height: auto;
+  transform: scale(0.39) rotate(22deg);
+  opacity: 0.13;
+}
+
+.decor--doodle-scroll-11 {
+  bottom: 18%;
+  left: 22%;
+  width: clamp(62px, 7vw, 92px);
+  height: auto;
+  transform: scale(0.35) rotate(-18deg);
+  opacity: 0.11;
+}
+
+.decor--doodle-scroll-12 {
+  top: 92%;
+  right: 12%;
+  width: clamp(68px, 8vw, 98px);
+  height: auto;
+  transform: scale(0.37) rotate(28deg);
+  opacity: 0.12;
+}
+
+/* Extra doodles for doubled density */
+.decor--doodle-extra-1 {
+  top: 12%;
+  left: 20%;
+  width: clamp(58px, 6vw, 88px);
+  height: auto;
+  transform: scale(0.33) rotate(-35deg);
+  opacity: 0.11;
+}
+
+.decor--doodle-extra-2 {
+  top: 25%;
+  right: 30%;
+  width: clamp(65px, 8vw, 95px);
+  height: auto;
+  transform: scale(0.38) rotate(20deg);
+  opacity: 0.12;
+}
+
+.decor--doodle-extra-3 {
+  top: 35%;
+  left: 12%;
+  width: clamp(70px, 9vw, 100px);
+  height: auto;
+  transform: scale(0.40) rotate(-15deg);
+  opacity: 0.13;
+}
+
+.decor--doodle-extra-4 {
+  top: 42%;
+  right: 35%;
+  width: clamp(62px, 7vw, 92px);
+  height: auto;
+  transform: scale(0.35) rotate(30deg);
+  opacity: 0.10;
+}
+
+.decor--doodle-extra-5 {
+  top: 53%;
+  left: 30%;
+  width: clamp(68px, 8vw, 98px);
+  height: auto;
+  transform: scale(0.39) rotate(-25deg);
+  opacity: 0.14;
+}
+
+.decor--doodle-extra-6 {
+  top: 65%;
+  right: 8%;
+  width: clamp(72px, 9vw, 102px);
+  height: auto;
+  transform: scale(0.41) rotate(15deg);
+  opacity: 0.12;
+}
+
+.decor--doodle-extra-7 {
+  top: 72%;
+  left: 18%;
+  width: clamp(60px, 7vw, 90px);
+  height: auto;
+  transform: scale(0.34) rotate(-40deg);
+  opacity: 0.11;
+}
+
+.decor--doodle-extra-8 {
+  bottom: 28%;
+  right: 40%;
+  width: clamp(66px, 8vw, 96px);
+  height: auto;
+  transform: scale(0.37) rotate(25deg);
+  opacity: 0.13;
+}
+
+.decor--doodle-extra-9 {
+  bottom: 35%;
+  left: 40%;
+  width: clamp(58px, 6vw, 88px);
+  height: auto;
+  transform: scale(0.32) rotate(-20deg);
+  opacity: 0.10;
+}
+
+.decor--doodle-extra-10 {
+  bottom: 42%;
+  right: 28%;
+  width: clamp(64px, 7vw, 94px);
+  height: auto;
+  transform: scale(0.36) rotate(35deg);
+  opacity: 0.12;
+}
+
+.decor--doodle-extra-11 {
+  top: 18%;
+  left: 45%;
+  width: clamp(70px, 9vw, 100px);
+  height: auto;
+  transform: scale(0.40) rotate(-10deg);
+  opacity: 0.11;
+}
+
+.decor--doodle-extra-12 {
+  top: 28%;
+  right: 15%;
+  width: clamp(62px, 7vw, 92px);
+  height: auto;
+  transform: scale(0.35) rotate(40deg);
+  opacity: 0.13;
+}
+
+.decor--doodle-extra-13 {
+  top: 38%;
+  left: 35%;
+  width: clamp(68px, 8vw, 98px);
+  height: auto;
+  transform: scale(0.38) rotate(-30deg);
+  opacity: 0.12;
+}
+
+.decor--doodle-extra-14 {
+  top: 48%;
+  right: 22%;
+  width: clamp(66px, 8vw, 96px);
+  height: auto;
+  transform: scale(0.37) rotate(18deg);
+  opacity: 0.10;
+}
+
+.decor--doodle-extra-15 {
+  top: 58%;
+  left: 8%;
+  width: clamp(72px, 9vw, 102px);
+  height: auto;
+  transform: scale(0.41) rotate(-35deg);
+  opacity: 0.14;
+}
+
+.decor--doodle-extra-16 {
+  top: 68%;
+  right: 45%;
+  width: clamp(60px, 7vw, 90px);
+  height: auto;
+  transform: scale(0.34) rotate(22deg);
+  opacity: 0.11;
+}
+
+.decor--doodle-extra-17 {
+  top: 78%;
+  left: 25%;
+  width: clamp(64px, 7vw, 94px);
+  height: auto;
+  transform: scale(0.36) rotate(-18deg);
+  opacity: 0.12;
+}
+
+.decor--doodle-extra-18 {
+  bottom: 32%;
+  right: 8%;
+  width: clamp(58px, 6vw, 88px);
+  height: auto;
+  transform: scale(0.33) rotate(28deg);
+  opacity: 0.13;
+}
+
+.decor--doodle-extra-19 {
+  bottom: 38%;
+  left: 15%;
+  width: clamp(70px, 9vw, 100px);
+  height: auto;
+  transform: scale(0.40) rotate(-12deg);
+  opacity: 0.10;
+}
+
+.decor--doodle-extra-20 {
+  bottom: 45%;
+  right: 35%;
+  width: clamp(66px, 8vw, 96px);
+  height: auto;
+  transform: scale(0.37) rotate(32deg);
+  opacity: 0.12;
+}
+
+.decor--doodle-extra-21 {
+  top: 15%;
+  right: 8%;
+  width: clamp(62px, 7vw, 92px);
+  height: auto;
+  transform: scale(0.35) rotate(-25deg);
+  opacity: 0.11;
+}
+
+.decor--doodle-extra-22 {
+  top: 32%;
+  left: 8%;
+  width: clamp(68px, 8vw, 98px);
+  height: auto;
+  transform: scale(0.38) rotate(15deg);
+  opacity: 0.13;
+}
+
+.decor--doodle-extra-23 {
+  top: 45%;
+  right: 12%;
+  width: clamp(64px, 7vw, 94px);
+  height: auto;
+  transform: scale(0.36) rotate(-38deg);
+  opacity: 0.12;
+}
+
+.decor--doodle-extra-24 {
+  top: 62%;
+  left: 35%;
+  width: clamp(60px, 7vw, 90px);
+  height: auto;
+  transform: scale(0.34) rotate(26deg);
+  opacity: 0.10;
+}
+
+.decor--doodle-extra-25 {
+  top: 75%;
+  right: 18%;
+  width: clamp(72px, 9vw, 102px);
+  height: auto;
+  transform: scale(0.41) rotate(-22deg);
+  opacity: 0.14;
+}
+
+.decor--doodle-extra-26 {
+  bottom: 28%;
+  left: 8%;
+  width: clamp(58px, 6vw, 88px);
+  height: auto;
+  transform: scale(0.33) rotate(35deg);
+  opacity: 0.11;
+}
+
+/* Dark mode doodle adjustments */
+.dark .decor--doodle-top-left,
+.dark .decor--doodle-top-center,
+.dark .decor--doodle-top-right,
+.dark .decor--doodle-top-far-left,
+.dark .decor--doodle-top-far-right,
+.dark .decor--doodle-upper-left,
+.dark .decor--doodle-upper-right,
+.dark .decor--doodle-upper-center,
+.dark .decor--doodle-upper-far-left,
+.dark .decor--doodle-middle-left,
+.dark .decor--doodle-middle-center,
+.dark .decor--doodle-middle-right,
+.dark .decor--doodle-middle-far-left,
+.dark .decor--doodle-middle-far-right,
+.dark .decor--doodle-lower-left,
+.dark .decor--doodle-lower-center,
+.dark .decor--doodle-lower-right,
+.dark .decor--doodle-lower-far-left,
+.dark .decor--doodle-lower-far-right,
+.dark .decor--doodle-bottom-left,
+.dark .decor--doodle-bottom-center,
+.dark .decor--doodle-bottom-right,
+.dark .decor--doodle-bottom-far-left,
+.dark .decor--doodle-bottom-far-right,
+.dark .decor--doodle-accent-1,
+.dark .decor--doodle-accent-2,
+.dark .decor--doodle-accent-3,
+.dark .decor--doodle-accent-4,
+.dark .decor--doodle-accent-5,
+.dark .decor--doodle-accent-6,
+.dark .decor--doodle-accent-7,
+.dark .decor--doodle-accent-8 {
+  mix-blend-mode: overlay;
+  opacity: inherit; /* Keep individual opacity values */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  /* Doodle mobile adjustments - Reduce all doodles for mobile */
+  .decor--doodle-top-left,
+  .decor--doodle-top-center,
+  .decor--doodle-top-right,
+  .decor--doodle-top-far-left,
+  .decor--doodle-top-far-right,
+  .decor--doodle-upper-left,
+  .decor--doodle-upper-right,
+  .decor--doodle-upper-center,
+  .decor--doodle-upper-far-left,
+  .decor--doodle-middle-left,
+  .decor--doodle-middle-center,
+  .decor--doodle-middle-right,
+  .decor--doodle-middle-far-left,
+  .decor--doodle-middle-far-right,
+  .decor--doodle-lower-left,
+  .decor--doodle-lower-center,
+  .decor--doodle-lower-right,
+  .decor--doodle-lower-far-left,
+  .decor--doodle-lower-far-right,
+  .decor--doodle-bottom-left,
+  .decor--doodle-bottom-center,
+  .decor--doodle-bottom-right,
+  .decor--doodle-bottom-far-left,
+  .decor--doodle-bottom-far-right,
+  .decor--doodle-accent-1,
+  .decor--doodle-accent-2,
+  .decor--doodle-accent-3,
+  .decor--doodle-accent-4,
+  .decor--doodle-accent-5,
+  .decor--doodle-accent-6,
+  .decor--doodle-accent-7,
+  .decor--doodle-accent-8 {
+    opacity: 0.05 !important;
+    transform: scale(0.12) !important;
+  }
+}
+
+/* Accessibility */
+.decor {
+  aria-hidden: true;
+}
+
+/* Animation for subtle movement */
+@media (prefers-reduced-motion: no-preference) {
+  .decor--doodle-top-left {
+    animation: gentle-float-1 30s ease-in-out infinite;
+  }
+  
+  .decor--doodle-top-center {
+    animation: gentle-float-2 35s ease-in-out infinite reverse;
+  }
+  
+  .decor--doodle-top-right {
+    animation: gentle-float-3 25s ease-in-out infinite;
+  }
+  
+  .decor--doodle-top-far-left {
+    animation: gentle-float-4 40s ease-in-out infinite reverse;
+  }
+  
+  .decor--doodle-top-far-right {
+    animation: gentle-float-5 28s ease-in-out infinite;
+  }
+  
+  .decor--doodle-upper-left {
+    animation: gentle-float-1-alt 32s ease-in-out infinite reverse;
+  }
+  
+  .decor--doodle-upper-right {
+    animation: gentle-float-2-alt 38s ease-in-out infinite;
+  }
+  
+  .decor--doodle-upper-center {
+    animation: gentle-float-3-alt 27s ease-in-out infinite reverse;
+  }
+  
+  .decor--doodle-upper-far-left {
+    animation: gentle-float-4-alt 42s ease-in-out infinite;
+  }
+  
+  .decor--doodle-middle-left {
+    animation: gentle-float-5-alt 31s ease-in-out infinite reverse;
+  }
+  
+  .decor--doodle-middle-center {
+    animation: gentle-float-1-v3 34s ease-in-out infinite;
+  }
+  
+  .decor--doodle-middle-right {
+    animation: gentle-float-2-v3 39s ease-in-out infinite reverse;
+  }
+  
+  .decor--doodle-middle-far-left {
+    animation: gentle-float-3-v3 29s ease-in-out infinite;
+  }
+  
+  .decor--doodle-middle-far-right {
+    animation: gentle-float-4-v3 44s ease-in-out infinite reverse;
+  }
+  
+  .decor--doodle-lower-left {
+    animation: gentle-float-5-v3 33s ease-in-out infinite;
+  }
+  
+  .decor--doodle-lower-center {
+    animation: gentle-float-1-v4 36s ease-in-out infinite reverse;
+  }
+  
+  .decor--doodle-lower-right {
+    animation: gentle-float-2-v4 41s ease-in-out infinite;
+  }
+  
+  .decor--doodle-lower-far-left {
+    animation: gentle-float-3-v4 26s ease-in-out infinite reverse;
+  }
+  
+  .decor--doodle-lower-far-right {
+    animation: gentle-float-4-v4 46s ease-in-out infinite;
+  }
+  
+  .decor--doodle-bottom-left {
+    animation: gentle-float-5-v4 30s ease-in-out infinite reverse;
+  }
+  
+  .decor--doodle-bottom-center {
+    animation: gentle-float-1 33s ease-in-out infinite;
+  }
+  
+  .decor--doodle-bottom-right {
+    animation: gentle-float-2 37s ease-in-out infinite reverse;
+  }
+  
+  .decor--doodle-bottom-far-left {
+    animation: gentle-float-3 28s ease-in-out infinite;
+  }
+  
+  .decor--doodle-bottom-far-right {
+    animation: gentle-float-4 43s ease-in-out infinite reverse;
+  }
+  
+  .decor--doodle-accent-1 {
+    animation: gentle-float-5 32s ease-in-out infinite;
+  }
+  
+  .decor--doodle-accent-2 {
+    animation: gentle-float-1-alt 45s ease-in-out infinite reverse;
+  }
+  
+  .decor--doodle-accent-3 {
+    animation: gentle-float-2-alt 29s ease-in-out infinite;
+  }
+  
+  .decor--doodle-accent-4 {
+    animation: gentle-float-3-alt 38s ease-in-out infinite reverse;
+  }
+  
+  .decor--doodle-accent-5 {
+    animation: gentle-float-4-alt 31s ease-in-out infinite;
+  }
+  
+  .decor--doodle-accent-6 {
+    animation: gentle-float-5-alt 40s ease-in-out infinite reverse;
+  }
+  
+  .decor--doodle-accent-7 {
+    animation: gentle-float-1-v3 27s ease-in-out infinite;
+  }
+  
+  .decor--doodle-accent-8 {
+    animation: gentle-float-2-v3 44s ease-in-out infinite reverse;
+  }
+}
+
+@keyframes gentle-float-1 {
+  0%, 100% {
+    transform: scale(0.5) rotate(-15deg);
+  }
+  50% {
+    transform: scale(0.52) rotate(-13deg);
+  }
+}
+
+@keyframes gentle-float-2 {
+  0%, 100% {
+    transform: scale(0.5) rotate(10deg);
+  }
+  50% {
+    transform: scale(0.52) rotate(12deg);
+  }
+}
+
+@keyframes gentle-float-3 {
+  0%, 100% {
+    transform: scale(0.5) rotate(25deg);
+  }
+  50% {
+    transform: scale(0.52) rotate(27deg);
+  }
+}
+
+@keyframes gentle-float-4 {
+  0%, 100% {
+    transform: scale(0.5) rotate(-8deg);
+  }
+  50% {
+    transform: scale(0.52) rotate(-6deg);
+  }
+}
+
+@keyframes gentle-float-5 {
+  0%, 100% {
+    transform: scale(0.5) rotate(18deg);
+  }
+  50% {
+    transform: scale(0.52) rotate(20deg);
+  }
+}
+
+@keyframes gentle-float-1-alt {
+  0%, 100% {
+    transform: scale(0.4) rotate(45deg);
+  }
+  50% {
+    transform: scale(0.42) rotate(47deg);
+  }
+}
+
+@keyframes gentle-float-2-alt {
+  0%, 100% {
+    transform: scale(0.45) rotate(-35deg);
+  }
+  50% {
+    transform: scale(0.47) rotate(-33deg);
+  }
+}
+
+@keyframes gentle-float-3-alt {
+  0%, 100% {
+    transform: scale(0.4) rotate(-10deg);
+  }
+  50% {
+    transform: scale(0.42) rotate(-8deg);
+  }
+}
+
+@keyframes gentle-float-4-alt {
+  0%, 100% {
+    transform: scale(0.42) rotate(30deg);
+  }
+  50% {
+    transform: scale(0.44) rotate(32deg);
+  }
+}
+
+@keyframes gentle-float-5-alt {
+  0%, 100% {
+    transform: scale(0.38) rotate(-20deg);
+  }
+  50% {
+    transform: scale(0.4) rotate(-18deg);
+  }
+}
+
+@keyframes gentle-float-1-v3 {
+  0%, 100% {
+    transform: scale(0.45) rotate(60deg);
+  }
+  50% {
+    transform: scale(0.47) rotate(62deg);
+  }
+}
+
+@keyframes gentle-float-2-v3 {
+  0%, 100% {
+    transform: scale(0.48) rotate(-50deg);
+  }
+  50% {
+    transform: scale(0.5) rotate(-48deg);
+  }
+}
+
+@keyframes gentle-float-3-v3 {
+  0%, 100% {
+    transform: scale(0.44) rotate(40deg);
+  }
+  50% {
+    transform: scale(0.46) rotate(42deg);
+  }
+}
+
+@keyframes gentle-float-4-v3 {
+  0%, 100% {
+    transform: scale(0.46) rotate(-25deg);
+  }
+  50% {
+    transform: scale(0.48) rotate(-23deg);
+  }
+}
+
+@keyframes gentle-float-5-v3 {
+  0%, 100% {
+    transform: scale(0.43) rotate(35deg);
+  }
+  50% {
+    transform: scale(0.45) rotate(37deg);
+  }
+}
+
+@keyframes gentle-float-1-v4 {
+  0%, 100% {
+    transform: scale(0.35) rotate(-40deg);
+  }
+  50% {
+    transform: scale(0.37) rotate(-38deg);
+  }
+}
+
+@keyframes gentle-float-2-v4 {
+  0%, 100% {
+    transform: scale(0.37) rotate(55deg);
+  }
+  50% {
+    transform: scale(0.39) rotate(57deg);
+  }
+}
+
+@keyframes gentle-float-3-v4 {
+  0%, 100% {
+    transform: scale(0.36) rotate(-15deg);
+  }
+  50% {
+    transform: scale(0.38) rotate(-13deg);
+  }
+}
+
+@keyframes gentle-float-4-v4 {
+  0%, 100% {
+    transform: scale(0.39) rotate(20deg);
+  }
+  50% {
+    transform: scale(0.41) rotate(22deg);
+  }
+}
+
+@keyframes gentle-float-5-v4 {
+  0%, 100% {
+    transform: scale(0.34) rotate(-30deg);
+  }
+  50% {
+    transform: scale(0.36) rotate(-28deg);
+  }
+}
+
+/* New doodle keyframes */
+@keyframes gentle-float-burst {
+  0%, 100% {
+    transform: scale(0.5) rotate(-12deg);
+  }
+  50% {
+    transform: scale(0.52) rotate(-10deg);
+  }
+}
+
+@keyframes gentle-float-burst-alt {
+  0%, 100% {
+    transform: scale(0.45) rotate(35deg);
+  }
+  50% {
+    transform: scale(0.47) rotate(37deg);
+  }
+}
+
+@keyframes gentle-float-burst-v3 {
+  0%, 100% {
+    transform: scale(0.48) rotate(-45deg);
+  }
+  50% {
+    transform: scale(0.5) rotate(-43deg);
+  }
+}
+
+@keyframes gentle-float-burst-v4 {
+  0%, 100% {
+    transform: scale(0.38) rotate(15deg);
+  }
+  50% {
+    transform: scale(0.4) rotate(17deg);
+  }
+}
+
+@keyframes gentle-float-lines {
+  0%, 100% {
+    transform: scale(0.5) rotate(22deg);
+  }
+  50% {
+    transform: scale(0.52) rotate(24deg);
+  }
+}
+
+@keyframes gentle-float-lines-alt {
+  0%, 100% {
+    transform: scale(0.42) rotate(-28deg);
+  }
+  50% {
+    transform: scale(0.44) rotate(-26deg);
+  }
+}
+
+@keyframes gentle-float-lines-v3 {
+  0%, 100% {
+    transform: scale(0.47) rotate(50deg);
+  }
+  50% {
+    transform: scale(0.49) rotate(52deg);
+  }
+}
+
+@keyframes gentle-float-lines-v4 {
+  0%, 100% {
+    transform: scale(0.36) rotate(-35deg);
+  }
+  50% {
+    transform: scale(0.38) rotate(-33deg);
+  }
+}
+
+@keyframes gentle-float-spark {
+  0%, 100% {
+    transform: scale(0.5) rotate(18deg);
+  }
+  50% {
+    transform: scale(0.52) rotate(20deg);
+  }
+}
+
+@keyframes gentle-float-spark-alt {
+  0%, 100% {
+    transform: scale(0.44) rotate(-42deg);
+  }
+  50% {
+    transform: scale(0.46) rotate(-40deg);
+  }
+}
+
+@keyframes gentle-float-spark-v3 {
+  0%, 100% {
+    transform: scale(0.46) rotate(65deg);
+  }
+  50% {
+    transform: scale(0.48) rotate(67deg);
+  }
+}
+
+@keyframes gentle-float-spark-v4 {
+  0%, 100% {
+    transform: scale(0.37) rotate(-18deg);
+  }
+  50% {
+    transform: scale(0.39) rotate(-16deg);
+  }
+}
+
+@keyframes gentle-float-triangle-bubble {
+  0%, 100% {
+    transform: scale(0.5) rotate(-32deg);
+  }
+  50% {
+    transform: scale(0.52) rotate(-30deg);
+  }
+}
+
+@keyframes gentle-float-triangle-bubble-alt {
+  0%, 100% {
+    transform: scale(0.43) rotate(48deg);
+  }
+  50% {
+    transform: scale(0.45) rotate(50deg);
+  }
+}
+
+@keyframes gentle-float-triangle-bubble-v3 {
+  0%, 100% {
+    transform: scale(0.45) rotate(-55deg);
+  }
+  50% {
+    transform: scale(0.47) rotate(-53deg);
+  }
+}
+
+@keyframes gentle-float-triangle-bubble-v4 {
+  0%, 100% {
+    transform: scale(0.35) rotate(25deg);
+  }
+  50% {
+    transform: scale(0.37) rotate(27deg);
+  }
+}
+
+/* Ensure decorations don't cause layout shift */
+.decor img,
+.decor svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Cases view adjustments - allow doodles above toolbar and extend throughout content */
+[data-cases-view] .decor {
+  opacity: 0.35; /* More visible in Cases view */
+  z-index: 10; /* Above case cards to appear in gaps - Cases view only */
+}
+
+/* Other pages - keep doodles in background */
+[data-projects-view] .decor,
+[data-advisory-view] .decor,
+[data-roles-view] .decor,
+[data-handovers-view] .decor {
+  opacity: 0.15 !important; /* Subtle background doodles */
+  z-index: -1 !important; /* Behind content - negative to ensure it's behind everything */
+}
+
+/* Top doodles - allow some above the toolbar */
+[data-cases-view] .decor--doodle-top-center {
+  top: 1%; /* Above toolbar */
+}
+
+[data-cases-view] .decor--doodle-top-right {
+  top: 2%; /* Above toolbar */
+}
+
+[data-cases-view] .decor--doodle-top-left {
+  top: 3%; /* Near toolbar */
+}
+
+[data-cases-view] .decor--doodle-top-far-left {
+  top: 1.5%; /* Above toolbar */
+}
+
+[data-cases-view] .decor--doodle-top-far-right {
+  top: 2.5%; /* Above toolbar */
+}
+
+/* Upper area doodles */
+[data-cases-view] .decor--doodle-upper-left {
+  top: 8vh;
+  opacity: 0.24;
+}
+
+[data-cases-view] .decor--doodle-upper-right {
+  top: 12vh;
+  opacity: 0.26;
+}
+
+[data-cases-view] .decor--doodle-upper-center {
+  top: 10vh;
+  opacity: 0.22;
+}
+
+[data-cases-view] .decor--doodle-upper-far-left {
+  top: 15vh;
+  opacity: 0.25;
+}
+
+/* Cases view - position middle and lower doodles in gaps between case cards */
+[data-cases-view] .decor--doodle-middle-left {
+  top: 25vh;
+  left: 5%; /* Left margin area */
+  opacity: 0.18;
+}
+
+[data-cases-view] .decor--doodle-middle-center {
+  top: 30vh;
+  left: 50%; /* Center gap between columns */
+  transform: translateX(-50%) scale(0.45) rotate(15deg);
+  opacity: 0.16;
+}
+
+[data-cases-view] .decor--doodle-middle-right {
+  top: 28vh;
+  right: 5%; /* Right margin area */
+  opacity: 0.19;
+}
+
+[data-cases-view] .decor--doodle-middle-far-left {
+  top: 35vh;
+  left: 2%; /* Far left margin */
+  opacity: 0.15;
+}
+
+[data-cases-view] .decor--doodle-middle-far-right {
+  top: 32vh;
+  right: 2%; /* Far right margin */
+  opacity: 0.20;
+}
+
+[data-cases-view] .decor--doodle-lower-left {
+  top: 45vh;
+  left: 8%; /* Left side gaps */
+  opacity: 0.17;
+}
+
+[data-cases-view] .decor--doodle-lower-center {
+  top: 50vh;
+  left: 50%; /* Center column gap */
+  transform: translateX(-50%) scale(0.42) rotate(-20deg);
+  opacity: 0.18;
+}
+
+[data-cases-view] .decor--doodle-lower-right {
+  top: 48vh;
+  right: 8%; /* Right side gaps */
+  opacity: 0.16;
+}
+
+[data-cases-view] .decor--doodle-lower-far-left {
+  top: 55vh;
+  left: 3%; /* Far left gaps */
+  opacity: 0.19;
+}
+
+[data-cases-view] .decor--doodle-lower-far-right {
+  top: 52vh;
+  right: 3%; /* Far right gaps */
+  opacity: 0.17;
+}
+
+/* Cases view - additional doodles in the gap areas */
+[data-cases-view] .decor--doodle-accent-1 {
+  top: 40vh;
+  left: 50%; /* Center gap */
+  transform: translateX(-50%) scale(0.38) rotate(25deg);
+  opacity: 0.14;
+}
+
+[data-cases-view] .decor--doodle-accent-2 {
+  top: 65vh;
+  right: 6%; /* Right margin */
+  opacity: 0.16;
+}
+
+[data-cases-view] .decor--doodle-accent-3 {
+  top: 70vh;
+  left: 6%; /* Left margin */
+  opacity: 0.15;
+}
+
+[data-cases-view] .decor--doodle-accent-4 {
+  top: 60vh;
+  left: 50%; /* Center gap */
+  transform: translateX(-50%) scale(0.4) rotate(-15deg);
+  opacity: 0.18;
+}
+
+[data-cases-view] .decor--doodle-accent-5 {
+  top: 38vh;
+  right: 4%; /* Right margin */
+  opacity: 0.17;
+}
+
+[data-cases-view] .decor--doodle-accent-6 {
+  top: 75vh;
+  left: 50%; /* Center gap */
+  transform: translateX(-50%) scale(0.36) rotate(30deg);
+  opacity: 0.16;
+}
+
+[data-cases-view] .decor--doodle-accent-7 {
+  top: 80vh;
+  left: 4%; /* Left margin */
+  opacity: 0.19;
+}
+
+[data-cases-view] .decor--doodle-accent-8 {
+  top: 85vh;
+  right: 7%; /* Right margin */
+  opacity: 0.15;
+}
+
+/* Extended doodles for long scrolling content */
+[data-cases-view] .decor--doodle-scroll-1 {
+  top: 95vh;
+  left: 15%;
+  width: clamp(60px, 7vw, 90px);
+  height: auto;
+  transform: scale(0.45) rotate(-20deg);
+  opacity: 0.12;
+}
+
+[data-cases-view] .decor--doodle-scroll-2 {
+  top: 110vh;
+  right: 20%;
+  width: clamp(65px, 8vw, 95px);
+  height: auto;
+  transform: scale(0.5) rotate(15deg);
+  opacity: 0.11;
+}
+
+[data-cases-view] .decor--doodle-scroll-3 {
+  top: 125vh;
+  left: 8%;
+  width: clamp(70px, 9vw, 100px);
+  height: auto;
+  transform: scale(0.48) rotate(-10deg);
+  opacity: 0.13;
+}
+
+[data-cases-view] .decor--doodle-scroll-4 {
+  top: 140vh;
+  right: 10%;
+  width: clamp(55px, 6vw, 85px);
+  height: auto;
+  transform: scale(0.42) rotate(25deg);
+  opacity: 0.12;
+}
+
+[data-cases-view] .decor--doodle-scroll-5 {
+  top: 155vh;
+  left: 25%;
+  width: clamp(75px, 9vw, 105px);
+  height: auto;
+  transform: scale(0.55) rotate(-30deg);
+  opacity: 0.14;
+}
+
+[data-cases-view] .decor--doodle-scroll-6 {
+  top: 170vh;
+  right: 15%;
+  width: clamp(60px, 7vw, 90px);
+  height: auto;
+  transform: scale(0.46) rotate(18deg);
+  opacity: 0.10;
+}
+
+[data-cases-view] .decor--doodle-scroll-7 {
+  top: 185vh;
+  left: 12%;
+  width: clamp(65px, 8vw, 95px);
+  height: auto;
+  transform: scale(0.49) rotate(-25deg);
+  opacity: 0.12;
+}
+
+[data-cases-view] .decor--doodle-scroll-8 {
+  top: 200vh;
+  right: 25%;
+  width: clamp(70px, 9vw, 100px);
+  height: auto;
+  transform: scale(0.47) rotate(20deg);
+  opacity: 0.11;
+}
+
+[data-cases-view] .decor--doodle-scroll-9 {
+  top: 220vh;
+  left: 18%;
+  width: clamp(58px, 6vw, 88px);
+  height: auto;
+  transform: scale(0.44) rotate(-15deg);
+  opacity: 0.12;
+}
+
+[data-cases-view] .decor--doodle-scroll-10 {
+  top: 240vh;
+  right: 18%;
+  width: clamp(72px, 9vw, 102px);
+  height: auto;
+  transform: scale(0.51) rotate(22deg);
+  opacity: 0.13;
+}
+
+[data-cases-view] .decor--doodle-scroll-11 {
+  top: 260vh;
+  left: 22%;
+  width: clamp(62px, 7vw, 92px);
+  height: auto;
+  transform: scale(0.46) rotate(-18deg);
+  opacity: 0.11;
+}
+
+[data-cases-view] .decor--doodle-scroll-12 {
+  top: 280vh;
+  right: 12%;
+  width: clamp(68px, 8vw, 98px);
+  height: auto;
+  transform: scale(0.48) rotate(28deg);
+  opacity: 0.12;
+}
+
+/* Cases view - extra doodles for doubled density in gaps */
+[data-cases-view] .decor--doodle-extra-1 {
+  top: 18vh;
+  left: 50%;
+  transform: translateX(-50%) scale(0.35) rotate(-35deg);
+  opacity: 0.15;
+}
+
+[data-cases-view] .decor--doodle-extra-2 {
+  top: 22vh;
+  right: 7%;
+  opacity: 0.14;
+}
+
+[data-cases-view] .decor--doodle-extra-3 {
+  top: 38vh;
+  left: 4%;
+  opacity: 0.16;
+}
+
+[data-cases-view] .decor--doodle-extra-4 {
+  top: 42vh;
+  left: 50%;
+  transform: translateX(-50%) scale(0.37) rotate(30deg);
+  opacity: 0.13;
+}
+
+[data-cases-view] .decor--doodle-extra-5 {
+  top: 58vh;
+  right: 4%;
+  opacity: 0.17;
+}
+
+[data-cases-view] .decor--doodle-extra-6 {
+  top: 68vh;
+  left: 50%;
+  transform: translateX(-50%) scale(0.39) rotate(15deg);
+  opacity: 0.15;
+}
+
+[data-cases-view] .decor--doodle-extra-7 {
+  top: 78vh;
+  left: 7%;
+  opacity: 0.14;
+}
+
+[data-cases-view] .decor--doodle-extra-8 {
+  top: 88vh;
+  right: 6%;
+  opacity: 0.16;
+}
+
+[data-cases-view] .decor--doodle-extra-9 {
+  top: 105vh;
+  left: 50%;
+  transform: translateX(-50%) scale(0.34) rotate(-20deg);
+  opacity: 0.13;
+}
+
+[data-cases-view] .decor--doodle-extra-10 {
+  top: 115vh;
+  left: 8%;
+  opacity: 0.15;
+}
+
+[data-cases-view] .decor--doodle-extra-11 {
+  top: 135vh;
+  right: 9%;
+  opacity: 0.14;
+}
+
+[data-cases-view] .decor--doodle-extra-12 {
+  top: 145vh;
+  left: 50%;
+  transform: translateX(-50%) scale(0.37) rotate(40deg);
+  opacity: 0.16;
+}
+
+[data-cases-view] .decor--doodle-extra-13 {
+  top: 165vh;
+  right: 4%;
+  opacity: 0.15;
+}
+
+[data-cases-view] .decor--doodle-extra-14 {
+  top: 175vh;
+  left: 6%;
+  opacity: 0.13;
+}
+
+[data-cases-view] .decor--doodle-extra-15 {
+  top: 195vh;
+  left: 50%;
+  transform: translateX(-50%) scale(0.36) rotate(-35deg);
+  opacity: 0.17;
+}
+
+[data-cases-view] .decor--doodle-extra-16 {
+  top: 205vh;
+  right: 7%;
+  opacity: 0.14;
+}
+
+[data-cases-view] .decor--doodle-extra-17 {
+  top: 225vh;
+  left: 5%;
+  opacity: 0.15;
+}
+
+[data-cases-view] .decor--doodle-extra-18 {
+  top: 235vh;
+  left: 50%;
+  transform: translateX(-50%) scale(0.35) rotate(28deg);
+  opacity: 0.16;
+}
+
+[data-cases-view] .decor--doodle-extra-19 {
+  top: 255vh;
+  right: 5%;
+  opacity: 0.13;
+}
+
+[data-cases-view] .decor--doodle-extra-20 {
+  top: 265vh;
+  left: 8%;
+  opacity: 0.15;
+}
+
+[data-cases-view] .decor--doodle-extra-21 {
+  top: 290vh;
+  left: 50%;
+  transform: translateX(-50%) scale(0.37) rotate(-25deg);
+  opacity: 0.14;
+}
+
+[data-cases-view] .decor--doodle-extra-22 {
+  top: 300vh;
+  right: 6%;
+  opacity: 0.16;
+}
+
+[data-cases-view] .decor--doodle-extra-23 {
+  top: 320vh;
+  left: 7%;
+  opacity: 0.15;
+}
+
+[data-cases-view] .decor--doodle-extra-24 {
+  top: 330vh;
+  left: 50%;
+  transform: translateX(-50%) scale(0.36) rotate(26deg);
+  opacity: 0.13;
+}
+
+[data-cases-view] .decor--doodle-extra-25 {
+  top: 350vh;
+  right: 8%;
+  opacity: 0.17;
+}
+
+[data-cases-view] .decor--doodle-extra-26 {
+  top: 360vh;
+  left: 6%;
+  opacity: 0.14;
+}
+
+/* Cases view - additional doodles with fixed positioning for better visibility */
+[data-cases-view] .decor--doodle-bottom-left {
+  top: auto;
+  bottom: 200px;
+  opacity: 0.22;
+}
+
+[data-cases-view] .decor--doodle-bottom-center {
+  top: auto;
+  bottom: 150px;
+  opacity: 0.18;
+}
+
+[data-cases-view] .decor--doodle-bottom-right {
+  top: auto;
+  bottom: 250px;
+  opacity: 0.20;
+}
+
+[data-cases-view] .decor--doodle-bottom-far-left {
+  top: auto;
+  bottom: 300px;
+  opacity: 0.19;
+}
+
+[data-cases-view] .decor--doodle-bottom-far-right {
+  top: auto;
+  bottom: 100px;
+  opacity: 0.17;
+}
