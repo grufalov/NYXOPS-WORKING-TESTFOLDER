@@ -1,33 +1,79 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function DangerToast({ id, message, icon, action, sticky, onClose, reducedMotion }) {
+export default function DangerToast({
+  id,
+  message,
+  icon,
+  action,
+  sticky,
+  onClose,
+  reducedMotion,
+  title = "Connection Error",
+  description, // optional; falls back to message
+}) {
+  const desc = description ?? message;
+
   return (
     <AnimatePresence>
-      {message && (
+      {desc && (
         <motion.div
-          initial={reducedMotion ? { opacity: 0 } : { y: 32, opacity: 0 }}
+          initial={reducedMotion ? { opacity: 0 } : { y: 24, opacity: 0 }}
           animate={reducedMotion ? { opacity: 1 } : { y: 0, opacity: 1 }}
-          exit={reducedMotion ? { opacity: 0 } : { y: 32, opacity: 0 }}
-          transition={{ type: "spring", stiffness: 400, damping: 32, duration: reducedMotion ? 0.2 : 0.4 }}
-          className="pointer-events-auto flex items-start gap-3 px-5 py-3 rounded-xl shadow-lg border-l-4 border-[var(--danger)] bg-[var(--surface-bg)] text-[var(--danger)] font-semibold text-sm min-w-[220px] max-w-xs relative"
+          exit={reducedMotion ? { opacity: 0 } : { y: 24, opacity: 0 }}
+          transition={{ type: "spring", stiffness: 420, damping: 30, duration: reducedMotion ? 0.18 : 0.28 }}
+          className="relative pointer-events-auto w-[400px] max-w-[92vw] rounded-2xl shadow-md border overflow-hidden"
+          style={{
+            background: "var(--card-bg)",
+            border: "1px solid rgba(239,68,68,0.38)", // danger ~38%
+            boxShadow: "var(--shadow-md)",
+            color: "var(--text)",
+          }}
           role="status"
           aria-live="assertive"
         >
-          {icon ? (
-            <span className="flex-shrink-0">{icon}</span>
-          ) : (
-            <svg className="w-5 h-5 text-[var(--danger)]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-          )}
-          <span className="flex-1 text-[var(--text)]">{message}</span>
-          {action && (
-            <button onClick={action.onClick} className="ml-2 text-xs font-medium text-[var(--danger)] hover:underline focus:outline-none">
-              {action.label}
+          {/* Left rail */}
+          <div className="absolute left-0 top-0 h-full w-1.5" style={{ background: "rgb(239,68,68)" }} aria-hidden />
+
+          {/* Tint overlay */}
+          <div className="absolute inset-0 pointer-events-none" style={{ background: "rgba(239,68,68,0.12)" }} aria-hidden />
+
+          <div className="relative flex items-start gap-3 p-4 pr-2">
+            {/* icon chip */}
+            <div
+              className="mt-0.5 inline-flex h-7 w-7 items-center justify-center rounded-full flex-shrink-0"
+              style={{ background: "rgba(239,68,68,0.22)", color: "rgb(239,68,68)" }}
+              aria-hidden
+            >
+              {icon ?? (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                  <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              )}
+            </div>
+
+            <div className="relative flex-1 min-w-0">
+              <div className="text-sm font-semibold" style={{ color: "rgb(239,68,68)" }}>
+                {title}
+              </div>
+              <div className="text-sm truncate">{desc}</div>
+            </div>
+
+            {action && (
+              <button onClick={action.onClick} className="relative mx-1 text-xs font-medium hover:underline" style={{ color: "rgb(239,68,68)" }}>
+                {action.label}
+              </button>
+            )}
+            <button
+              onClick={onClose}
+              className="relative ml-1 inline-flex h-8 w-8 items-center justify-center rounded-xl hover:bg-[var(--surface-bg)]"
+              aria-label="Close notification"
+            >
+              <svg className="w-4 h-4" viewBox="0 0 20 20" fill="none">
+                <path d="M6 6l8 8M6 14L14 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              </svg>
             </button>
-          )}
-          <button onClick={onClose} className="ml-2 text-xs text-gray-400 hover:text-gray-600 focus:outline-none" aria-label="Close notification">
-            <svg className="w-4 h-4" viewBox="0 0 20 20" fill="none"><path d="M6 6l8 8M6 14L14 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
-          </button>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>
