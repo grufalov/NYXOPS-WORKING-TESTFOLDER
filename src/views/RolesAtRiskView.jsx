@@ -1,10 +1,59 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { withLocalFlags } from '../config/localFlags.js';
 import { 
   Search, Download, Upload, MoreVertical, Plus, 
   Filter, X, CheckSquare, Square, Trash2, Settings, Eye, ChevronDown
 } from 'lucide-react';
 import BackgroundDoodles from '../components/decors/BackgroundDoodles.jsx';
-import RolesSmartTable from '../components/RolesSmartTable.jsx';
+// import RolesSmartTable from '../components/RolesSmartTable.jsx';
+import { Table } from '../ui/index.js';
+import { flag } from '../config/flags.js';
+import { DataTableHero } from '../ui/datatable-hero.jsx';
+import { markReady } from '../startup/ready.js';
+// Custom cell renderers for Table adapter
+const statusCell = (info) => {
+  const value = info.getValue();
+  return (
+    <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+      value === 'Open'
+        ? 'bg-[#16a34a] text-white'
+        : 'bg-gray-100 text-gray-800'
+    }`}>
+      {value}
+    </span>
+  );
+};
+
+const roleTypeCell = (info) => {
+  const value = info.getValue();
+  if (value === 'External') {
+    return <span className="font-semibold text-[#f97316]">{value}</span>;
+  } else if (value === 'Internal') {
+    return <span className="font-semibold text-[#5B8DEF]">{value}</span>;
+  }
+  return <span className="font-semibold text-gray-700">{value}</span>;
+};
+
+const riskReasonsCell = (info) => {
+  const value = info.getValue();
+  if (Array.isArray(value)) {
+    return (
+      <div className="flex flex-wrap gap-1">
+        {value.map((reason, idx) => (
+          <span key={idx} className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-[#8a87d6]/10 text-[#8a87d6]">{reason}</span>
+        ))}
+      </div>
+    );
+  }
+  return <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-[#8a87d6]/10 text-[#8a87d6]">{value}</span>;
+};
+
+const dateCreatedCell = (info) => {
+  const value = info.getValue();
+  if (!value) return <span className="text-gray-400">—</span>;
+  const d = new Date(value);
+  return d.toLocaleDateString();
+};
 import RoleEditModal from '../components/RoleEditModal.jsx';
 import PasteImportModal from '../components/PasteImportModal.jsx';
 import { exportToCSV, exportToXLSX, exportToHTML, exportToPDF } from '../utils/rolesImportExport.js';
@@ -386,7 +435,30 @@ const RolesAtRiskView = ({
   
   // Table layout and density
   const [tableColumns, setTableColumns] = useState(() => getTableLayout());
+
+  // Build columns array for Table adapter
+  const tableAdapterColumns = useMemo(() => {
+    return tableColumns
+      .filter((col) => col.visible)
+      .map((col) => {
+        let cell;
+        if (col.key === 'status') cell = statusCell;
+        else if (col.key === 'role_type') cell = roleTypeCell;
+        else if (col.key === 'risk_reasons') cell = riskReasonsCell;
+        else if (col.key === 'date_created') cell = dateCreatedCell;
+        return {
+          header: col.label,
+          accessorKey: col.key,
+          cell,
+        };
+      });
+  }, [tableColumns]);
   const [density, setDensity] = useState(() => getTableDensity());
+  
+  // Mark app ready on mount
+  useEffect(() => {
+    markReady();
+  }, []);
   
   // Table resizing state
   const [tableSize, setTableSize] = useState({ width: '100%', height: 'auto' });
@@ -549,6 +621,39 @@ const RolesAtRiskView = ({
       alert(`Export failed: ${error.message}`);
     }
   };
+
+  // New table action handlers
+  const handleViewRowNew = (row) => {
+    setEditingRole(row);
+  };
+  const handleEditRowNew = (row) => {
+    setEditingRole(row);
+  };
+  const handleDeleteRowNew = async (row) => {
+    if (!row?.id) return;
+    const confirmed = confirm('Delete this role? This action cannot be undone.');
+    if (!confirmed) return;
+    try {
+      await deleteRole(row.id);
+    } catch (error) {
+      console.error('Delete error:', error);
+      alert(`Delete failed: ${error.message}`);
+    }
+  };
+  const handleBulkDeleteNew = async (rows) => {
+    const items = Array.isArray(rows) ? rows : [];
+    if (items.length === 0) return;
+    const confirmed = confirm(`Are you sure you want to delete ${items.length} role(s)? This action cannot be undone.`);
+    if (!confirmed) return;
+    try {
+      for (const r of items) {
+        if (r?.id) await deleteRole(r.id);
+      }
+    } catch (error) {
+      console.error('Bulk delete error:', error);
+      alert(`Delete failed: ${error.message}`);
+    }
+  };
   
   const handleImport = async (importData) => {
     try {
@@ -631,7 +736,7 @@ const RolesAtRiskView = ({
   
   return (
     <div 
-      className={`${isDarkTheme ? 'bg-[#30313e] text-white' : 'bg-[#e3e3f5] text-gray-900'} h-screen overflow-hidden relative`} 
+      className={`${isDarkTheme ? 'bg-[#30313e] text-white' : 'bg-[#e3e3f5] text-gray-900'} min-h-screen relative`} 
       data-roles-view
       style={{ backgroundColor: 'var(--app-bg)', color: 'var(--text)' }}
     >
@@ -788,32 +893,69 @@ const RolesAtRiskView = ({
       </div>
         
       {/* Table Container - Resizable with spacing */}
-      <div className="flex-1 px-6 pt-4 pb-6 overflow-y-auto">
-        <div 
+      <div className="flex-1 px-6 pt-4 pb-6">
+        <div
           ref={tableContainerRef}
-          className="relative border rounded-lg shadow-sm"
-          style={{ 
-            width: tableSize.width,
-            height: tableSize.height,
-            minWidth: '400px',
-            minHeight: '200px',
-            backgroundColor: 'var(--surface-bg)',
-            borderColor: 'var(--border)'
-          }}
+          className="relative"
+          style={{ width: tableSize.width, minWidth: '400px' }}
         >
-          <div className="h-full overflow-auto">
-            <RolesSmartTable
-          roles={filteredAndSortedRoles}
-          selectedRoles={selectedRoles}
-          onSelectionChange={setSelectedRoles}
-          onRowClick={handleRowClick}
-          sortConfig={sortConfig}
-          onSort={handleSort}
-          isDarkTheme={isDarkTheme}
-          density={density}
-            onColumnsChange={setTableColumns}
-            onShowColumnsModal={() => setShowColumnsModal(true)}
-          />
+          <div>
+            {/* HeroUI-style DataTable: NEW_TABLE flag controls fallback. */}
+            {flag('NEW_TABLE') ? (
+              <DataTableHero
+                columns={[
+                  { name: "Job Rec ID", uid: "jobRecId", sortable: true, meta: { bold: true } },
+                  { name: "ROMA ID", uid: "romaId", sortable: true },
+                  { name: "Role Type", uid: "roleType", sortable: true },
+                  { name: "Job Title", uid: "jobTitle", sortable: true, meta: { bold: true } },
+                  { name: "GCM", uid: "gcm", sortable: true, meta: { bold: true, align: "right" } },
+                  { name: "Hiring Manager", uid: "hiringManager" },
+                  { name: "Recruiter", uid: "recruiter" },
+                  { name: "Practice", uid: "practice" },
+                  { name: "Client", uid: "client" },
+                  { name: "Date Created", uid: "dateCreated", sortable: true },
+                  { name: "Status", uid: "status", sortable: true, meta: { chip: true } },
+                  { name: "Risk Reasons", uid: "riskReason" },
+                ]}
+                data={filteredAndSortedRoles.map(role => ({
+                  jobRecId: role.job_rec_id,
+                  romaId: role.roma_id,
+                  roleType: role.role_type,
+                  jobTitle: role.title,
+                  gcm: role.gcm,
+                  hiringManager: role.hiring_manager,
+                  recruiter: role.recruiter,
+                  practice: role.practice,
+                  client: role.client,
+                  dateCreated: role.date_created,
+                  status: role.status,
+                  riskReason: role.risk_reasons,
+                  id: role.id // for row selection
+                }))}
+                searchAccessorKey="jobTitle"
+                statusFilter={{
+                  accessorKey: "status",
+                  options: [
+                    { label: "Open", value: "Open" },
+                    { label: "Closed", value: "Closed" },
+                  ]
+                }}
+                defaultVisible={["jobRecId","romaId","roleType","jobTitle","gcm","hiringManager","recruiter","practice","client","dateCreated","status","riskReason"]}
+                pageSizeOptions={[5,10,15]}
+                actionsSlot={<button className="h-10 flex items-center gap-2 px-4 text-sm font-medium rounded-lg bg-[#8a87d6] text-white transition-all hover:bg-[#7a77c6]">+ Add Role at Risk</button>}
+                showTopToolbar={false}
+                maxBodyHeight={null}
+                onViewRow={handleViewRowNew}
+                onEditRow={handleEditRowNew}
+                onDeleteRow={handleDeleteRowNew}
+                onBulkDelete={handleBulkDeleteNew}
+                getRowId={(row) => row.id}
+                boldColumns={["jobTitle", "gcm", "jobRecId"]}
+                headerTint="accent"
+              />
+            ) : (
+              <Table columns={tableAdapterColumns} data={filteredAndSortedRoles} />
+            )}
           </div>
           
           {/* Resize Handle - Bottom Right Corner */}
@@ -872,5 +1014,6 @@ const RolesAtRiskView = ({
   );
 };
 
-export default RolesAtRiskView;
+// Wrap with per-page flag override for NEW_TABLE. Remove or edit the override to toggle fallback.
+export default withLocalFlags(RolesAtRiskView, { NEW_TABLE: true });
 

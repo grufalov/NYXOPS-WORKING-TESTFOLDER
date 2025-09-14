@@ -5,6 +5,9 @@ import Lab from './views/Lab.jsx'
 import './index.css'
 import './styles/print.css'
 import './styles/decorations.css'
+import { startWatchdog } from './startup/watchdog.js'
+
+startWatchdog();
 
 const isLab = window.location.pathname.startsWith('/lab');
 

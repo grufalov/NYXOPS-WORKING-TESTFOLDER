@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import { Card, CardHeader, CardContent, CardFooter } from '../../ui/index.js';
+import QuillEditor from '../../ui/editor/QuillEditor';
 
 // Quill toolbar configuration with color/background pickers
 const quillToolbarOptions = [
@@ -253,24 +253,21 @@ const QuickNotesCardEnhanced = ({ isDarkTheme, user }) => {
     );
   }
 
+  // To preview shadcn UI for just this card, wrap below with FlagScope:
+  // import { FlagScope } from '@/config/FlagScope';
+  // export default FlagScope(QuickNotesCardEnhanced, { NEW_UI_LIB: true });
   return (
-    <div 
-      className="surface-card overflow-hidden min-h-[300px]"
-      style={{ 
+    <Card className="overflow-hidden min-h-[300px] surface-card"
+      style={{
         backgroundColor: '#f3f4fd',
         border: '2px solid #c5cae9',
         borderRadius: '1rem',
         boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px 0 rgb(0 0 0 / 0.06)'
       }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.backgroundColor = '#ffffff';
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.backgroundColor = '#f3f4fd';
-      }}
+      onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#ffffff'; }}
+      onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#f3f4fd'; }}
     >
-      {/* Header */}
-      <div className="p-4 border-b border-subtle">
+      <CardHeader className="p-4 border-b border-subtle">
         <div className="flex items-center gap-2">
           <StickyNote className="w-5 h-5 text-yellow-500" />
           <h3 className={`font-semibold ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>Quick Notes</h3>
@@ -283,15 +280,10 @@ const QuickNotesCardEnhanced = ({ isDarkTheme, user }) => {
             </button>
           )}
         </div>
-      </div>
-
-
-
-      {/* Content Area */}
-  <div className="p-4 flex flex-col gap-0 h-[300px]">
-        {/* Only Quill editor, no preview/markdown mode */}
-        <div className="quill-rounded-toolbar-wrapper" style={{marginTop: 0}}>
-          <ReactQuill
+      </CardHeader>
+      <CardContent className="p-4 flex flex-col gap-0 h-[300px]">
+        <div className="quill-rounded-toolbar-wrapper" style={{ marginTop: 0 }}>
+          <QuillEditor
             theme="snow"
             value={content}
             onChange={setContent}
@@ -299,20 +291,19 @@ const QuickNotesCardEnhanced = ({ isDarkTheme, user }) => {
             style={{ minHeight: '200px', flex: 1, background: 'transparent', color: isDarkTheme ? '#fff' : '#111' }}
           />
         </div>
-{/* Footer with save status */}
-<div className="mt-2 flex justify-end">
-          {note?.id && (
-            <div className={`text-xs ${isDarkTheme ? 'text-slate-400' : 'text-gray-500'}`}>
-              {isSaving ? (
-                <span className="text-accent">Saving...</span>
-              ) : lastSaved ? (
-                <span>Saved {formatTime(lastSaved)}</span>
-              ) : null}
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
+      </CardContent>
+      <CardFooter className="mt-2 flex justify-end">
+        {note?.id && (
+          <div className={`text-xs ${isDarkTheme ? 'text-slate-400' : 'text-gray-500'}`}>
+            {isSaving ? (
+              <span className="text-accent">Saving...</span>
+            ) : lastSaved ? (
+              <span>Saved {formatTime(lastSaved)}</span>
+            ) : null}
+          </div>
+        )}
+      </CardFooter>
+    </Card>
   );
 };
 

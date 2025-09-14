@@ -43,13 +43,7 @@
           console.error('Unhandled rejection caught:', e);
           showFallback(d);
         });
-        // If React hasn't marked ready shortly after load, show fallback
-        setTimeout(() => {
-          console.log('Checking if app mounted, __NYXOPS_READY__:', window.__NYXOPS_READY__);
-          if(!window.__NYXOPS_READY__){
-            showFallback('Startup timeout: The app did not mount in time.');
-          }
-        }, 2500);
+        // Startup watchdog now handled by centralized system in main.jsx
         if(reloadBtn){ reloadBtn.onclick = () => location.reload(); }
         if(copyBtn){ copyBtn.onclick = async () => {
           try { await navigator.clipboard.writeText(details.join('\n\n')); copyBtn.textContent = 'Copied!'; setTimeout(()=>copyBtn.textContent='Copy details', 1200); } catch {}
