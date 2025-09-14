@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
+import { NotificationsProvider } from './providers/NotificationsProvider.jsx';
 import Lab from './views/Lab.jsx'
 import './index.css'
 import './styles/print.css'
@@ -17,7 +18,9 @@ if (isLab) {
 } else {
   root.render(
     <React.StrictMode>
-      <App />
+      <NotificationsProvider>
+        <App />
+      </NotificationsProvider>
     </React.StrictMode>
   );
 }
