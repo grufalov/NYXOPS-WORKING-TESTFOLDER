@@ -145,46 +145,50 @@ export function NotificationsProvider({ children }) {
       </div>
 
       {portalRoot &&
-        createPortal(
-          <div className="pointer-events-none fixed inset-0 z-[1000]" aria-hidden>
-            <div className="absolute right-3 top-3 flex w-full max-w-[calc(100%-1.5rem)] flex-col items-end gap-2">
-              {/* Success (single) */}
-              <div className="pointer-events-auto">
-                {success && (
-                  <SuccessSlideIn
-                    key={success.id}
-                    message={success.message}
-                    title={success.opts.title}                 
-                    description={success.opts.description}     
-                    icon={success.opts.icon}
-                    action={success.opts.action}
-                    onClose={dismissSuccess}
-                    reducedMotion={reducedMotion}
-                  />
-                )}
-              </div>
+  createPortal(
+    <div className="pointer-events-none fixed inset-0 z-[1000]" aria-hidden>
+      {/* Top-right: Success (single) */}
+      <div className="absolute right-3 top-3 flex w-full max-w-[calc(100%-1.5rem)] flex-col items-end gap-2">
+        <div className="pointer-events-auto">
+          {success && (
+            <SuccessSlideIn
+              key={success.id}
+              message={success.message}
+              title={success.opts.title}
+              description={success.opts.description}
+              icon={success.opts.icon}
+              action={success.opts.action}
+              onClose={dismissSuccess}
+              reducedMotion={reducedMotion}
+            />
+          )}
+        </div>
+      </div>
 
-              {/* Danger stack */}
-              <div className="pointer-events-auto flex w-full max-w-sm flex-col gap-2">
-                {dangerToasts.map((toast) => (
-                  <DangerToast
-                    key={toast.id}
-                    id={toast.id}
-                    message={toast.message}
-                    title={toast.opts.title}                   
-                    description={toast.opts.description}       
-                    icon={toast.opts.icon}
-                    action={toast.opts.action}
-                    sticky={toast.opts.sticky}
-                    onClose={() => dismissDanger(toast.id)}
-                    reducedMotion={reducedMotion}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>,
-          portalRoot
-        )}
+      {/* Bottom-right: Danger (stack) */}
+      <div className="absolute right-3 bottom-3 flex w-full max-w-[calc(100%-1.5rem)] flex-col items-end gap-2">
+        <div className="pointer-events-auto flex w-full max-w-sm flex-col gap-2">
+          {dangerToasts.map((toast) => (
+            <DangerToast
+              key={toast.id}
+              id={toast.id}
+              message={toast.message}
+              title={toast.opts.title}
+              description={toast.opts.description}
+              icon={toast.opts.icon}
+              action={toast.opts.action}
+              sticky={toast.opts.sticky}
+              onClose={() => dismissDanger(toast.id)}
+              reducedMotion={reducedMotion}
+            />
+          ))}
+        </div>
+      </div>
+    </div>,
+    portalRoot
+  )
+}
+
     </NotificationsContext.Provider>
   );
 }
