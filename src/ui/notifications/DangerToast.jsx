@@ -10,7 +10,7 @@ export default function DangerToast({
   onClose,
   reducedMotion,
   title = "Connection Error",
-  description, // optional; falls back to message
+  description,
 }) {
   const desc = description ?? message;
 
@@ -18,32 +18,30 @@ export default function DangerToast({
     <AnimatePresence>
       {desc && (
         <motion.div
+          layout
           initial={reducedMotion ? { opacity: 0 } : { y: 24, opacity: 0 }}
           animate={reducedMotion ? { opacity: 1 } : { y: 0, opacity: 1 }}
           exit={reducedMotion ? { opacity: 0 } : { y: 24, opacity: 0 }}
-          transition={{ type: "spring", stiffness: 420, damping: 30, duration: reducedMotion ? 0.18 : 0.28 }}
-          className="relative pointer-events-auto w-[400px] max-w-[92vw] rounded-2xl shadow-md border overflow-hidden"
-          style={{
-            background: "var(--card-bg)",
-            border: "1px solid rgba(239,68,68,0.38)", // danger ~38%
-            boxShadow: "var(--shadow-md)",
-            color: "var(--text)",
+          transition={{
+            type: "spring",
+            stiffness: 460,
+            damping: 30,
+            duration: reducedMotion ? 0.18 : 0.28,
           }}
+          style={{ transformOrigin: "bottom right" }}
+          className="relative pointer-events-auto w-[360px] max-w-[92vw] rounded-2xl shadow-md border overflow-hidden"
           role="status"
           aria-live="assertive"
         >
-          {/* Left rail */}
-          <div className="absolute left-0 top-0 h-full w-1.5" style={{ background: "rgb(239,68,68)" }} aria-hidden />
+          {/* Base + tint + rail */}
+          <div className="absolute inset-0" style={{ background: "var(--card-bg)" }} />
+          <div className="absolute inset-0" style={{ background: "rgba(239,68,68,0.12)" }} />
+          <div className="absolute left-0 top-0 h-full w-1.5" style={{ background: "rgb(239,68,68)" }} />
 
-          {/* Tint overlay */}
-          <div className="absolute inset-0 pointer-events-none" style={{ background: "rgba(239,68,68,0.12)" }} aria-hidden />
-
-          <div className="relative flex items-start gap-3 p-4 pr-2">
-            {/* icon chip */}
+          <div className="relative flex items-start gap-3 p-4 pr-2" style={{ color: "var(--text)", border: "1px solid rgba(239,68,68,0.38)", boxShadow: "var(--shadow-md)" }}>
             <div
               className="mt-0.5 inline-flex h-7 w-7 items-center justify-center rounded-full flex-shrink-0"
               style={{ background: "rgba(239,68,68,0.22)", color: "rgb(239,68,68)" }}
-              aria-hidden
             >
               {icon ?? (
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
@@ -56,7 +54,7 @@ export default function DangerToast({
               <div className="text-sm font-semibold" style={{ color: "rgb(239,68,68)" }}>
                 {title}
               </div>
-              <div className="text-sm truncate">{desc}</div>
+              <div className="text-sm">{desc}</div>
             </div>
 
             {action && (
