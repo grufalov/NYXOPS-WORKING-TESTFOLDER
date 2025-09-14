@@ -19,6 +19,7 @@
     "@supabase/supabase-js": "^2.39.3",
     "@tanstack/react-table": "8.21.3",
     "bcryptjs": "^3.0.2",
+    "framer-motion": "^12.23.12",
     "jspdf": "^3.0.2",
     "jspdf-autotable": "^5.0.2",
     "jszip": "^3.10.1",
