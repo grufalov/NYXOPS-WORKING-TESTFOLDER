@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Card, CardHeader, CardContent, CardFooter } from '../../ui';
+import { Card, CardHeader, CardContent, CardFooter } from '../../ui/index.js';
 import QuillEditor from '../../ui/editor/QuillEditor';
 
 // Quill toolbar configuration with color/background pickers
