@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import NotificationsProbe from '../lab/NotificationsProbe';
+import RolesAtRiskTableV2 from '../lab/RolesAtRiskTableV2.jsx';
+import { NotificationsProvider } from '../providers/NotificationsProvider';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -18,6 +21,25 @@ export default function Lab() {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState('');
   const [formSuccess, setFormSuccess] = useState('');
+
+  // Simple path-based routing for lab probes
+  const path = window.location.pathname;
+
+  if (path === '/lab/notificationsprobe') {
+    return (
+      <NotificationsProvider>
+        <NotificationsProbe />
+      </NotificationsProvider>
+    );
+  }
+
+  if (path === '/lab/roles-at-risk-v2') {
+    return (
+      <NotificationsProvider>
+        <RolesAtRiskTableV2 />
+      </NotificationsProvider>
+    );
+  }
 
   return (
     <div className="min-h-screen p-6" style={{ backgroundColor: 'var(--app-bg)', color: 'var(--text)' }}>

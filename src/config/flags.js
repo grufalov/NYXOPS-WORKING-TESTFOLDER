@@ -1,7 +1,7 @@
-<<<<<<< HEAD
-// Feature flags for introducing new UI libraries safely
-// Usage: override via Vite env vars e.g. VITE_NEW_UI_LIB=true
+// Central feature flag helper with optional per-page overrides
+// Usage: flag('NEW_UI_LIB')
 
+// Default feature flags for introducing new UI libraries safely
 export const FLAGS = {
   NEW_UI_LIB: true,
   NEW_TABLE: true,
@@ -10,21 +10,12 @@ export const FLAGS = {
   NEW_FORMS: true,
 };
 
-export function flag(name) {
-  const envKey = `VITE_${name}`;
-  const raw = import.meta.env?.[envKey];
-  if (raw === 'true') return true;
-  if (raw === 'false') return false;
-  return !!FLAGS[name];
-=======
-// Central feature flag helper with optional per-page overrides
-// Usage: flag('NEW_UI_LIB')
-
 /**
  * Returns a boolean for the requested flag name.
  * Order of precedence:
  * - window.__FLAG_OVERRIDES__[name] when defined as a boolean (page-scoped)
  * - import.meta.env.VITE_<NAME> from Vite env
+ * - fallback to FLAGS[name]
  * - default: false
  * @param {string} name
  * @returns {boolean}
@@ -40,6 +31,7 @@ export function flag(name) {
   const viteVal = env?.[`VITE_${name}`];
   if (typeof viteVal === 'string') return viteVal === 'true';
   if (typeof viteVal === 'boolean') return viteVal;
+  if (typeof FLAGS[name] === 'boolean') return FLAGS[name];
   return false;
 }
 
@@ -50,5 +42,4 @@ export function flag(name) {
 export function rawFlagEnv(name) {
   const env = (import.meta && import.meta.env) ? import.meta.env : {};
   return env?.[`VITE_${name}`];
->>>>>>> origin/feature/ui-quick-notes
 }

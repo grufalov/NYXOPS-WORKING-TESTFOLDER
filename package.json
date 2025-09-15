@@ -13,12 +13,14 @@
     "ship": "git add -A && git commit -m \"chore:snapshot\" || echo no changes && git pull --rebase && git push"
   },
   "dependencies": {
+    "@heroui/react": "^2.8.4",
     "@hookform/resolvers": "5.2.1",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-slot": "1.2.3",
     "@supabase/supabase-js": "^2.39.3",
     "@tanstack/react-table": "8.21.3",
     "bcryptjs": "^3.0.2",
+    "framer-motion": "^12.23.12",
     "jspdf": "^3.0.2",
     "jspdf-autotable": "^5.0.2",
     "jszip": "^3.10.1",

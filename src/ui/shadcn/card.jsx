@@ -1,19 +1,12 @@
 import React from 'react';
 
-<<<<<<< HEAD
-export function ShCard({ className = '', ...props }) {
-=======
 export function ShCard({ className = '', noClip = false, ...props }) {
->>>>>>> origin/feature/ui-quick-notes
   const cls = [
     'rounded-lg border',
     'border-[var(--surface-bg)]',
     'bg-[var(--card-bg)] text-[var(--text)]',
     'shadow-sm',
-<<<<<<< HEAD
-=======
     noClip ? '' : 'overflow-hidden',
->>>>>>> origin/feature/ui-quick-notes
     className,
   ].join(' ').trim();
   return <div className={cls} {...props} />;
